@@ -1,6 +1,6 @@
 # eventkalender
 
-Small sinatra web application to serve feeds for [c3voc](http://c3voc.de) [events](https://c3voc.de/events).
+Small sinatra web application to serve feeds for [c3voc](http://c3voc.de) [events](https://c3voc.de/wiki/events).
 
 Supported feed formats:
 
