@@ -41,22 +41,3 @@ get '/events.json' do
 
   json.to_s
 end
-
-
-__END__
-
-@@ layout
-!!!5
-%html
-  %head
-    %title c3voc events
-    %link{ :href => "/events.atom", :rel => "alternate", :title => "Atom - VOC events", :type => "application/atom+xml" }
-  %body
-    = yield
-
-@@ index
-%h1 c3voc events
-%ul
-  - %w{ical atom json txt}.each do |format|
-    %li
-      %a{ href: "/events.#{format}" }= format

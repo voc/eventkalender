@@ -1,0 +1,5 @@
+%h1 c3voc events
+%ul
+  - %w{ical atom json txt}.each do |format|
+    %li
+      %a{ href: url("/events.#{format}") }= format
