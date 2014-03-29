@@ -9,7 +9,7 @@ Supported feed formats:
   * json → /events.json
   * txt  → /events.txt
 
-Tested against Ruby `1.9.3` and `2.0.0`.
+Tested against Ruby `1.9.3` and `2.0.0`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender)
 
 ## Install
 
