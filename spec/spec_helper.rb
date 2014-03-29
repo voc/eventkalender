@@ -33,7 +33,7 @@ RSpec.configure do |config|
     stub_request(:get, "http://c3voc.de/wiki/events").to_return( body: File.read(events_html_file),
                                                                  code: 200,
                                                                  headers: { 'Content-Type' =>
-                                                                                'text/html; charset=utf-8'} )
+                                                                            'text/html; charset=utf-8'} )
   end
 end
 

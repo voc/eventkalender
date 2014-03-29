@@ -11,4 +11,5 @@ gem 'mechanize', '~> 2.7.0'
 # testing
 gem 'rspec', '~> 2.14.1'
 gem 'webmock', '~> 1.17.4'
+gem 'simplecov', '~> 0.8.2'
 gem 'guard-rspec', '~> 4.2.8'
