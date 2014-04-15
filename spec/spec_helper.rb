@@ -2,7 +2,7 @@
 require 'simplecov'
 
 SimpleCov.start do
-  add_filter "/spec/"
+  add_filter '/spec/'
 end
 
 require 'rspec'
@@ -31,7 +31,7 @@ RSpec.configure do |config|
     project_root     = File.expand_path('..', __FILE__)
     events_html_file = "#{project_root}/fixtures/events.htm"
 
-    stub_request(:get, "http://c3voc.de/wiki/events").to_return( body: File.read(events_html_file),
+    stub_request(:get, 'http://c3voc.de/wiki/events').to_return( body: File.read(events_html_file),
                                                                  code: 200,
                                                                  headers: { 'Content-Type' =>
                                                                             'text/html; charset=utf-8'} )

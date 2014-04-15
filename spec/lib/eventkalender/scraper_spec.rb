@@ -39,7 +39,7 @@ describe Eventkalender::Scraper do
     end
 
     it 'should be possible to change url for this function' do
-      stub_request(:get, "http://c3voc.de/wiki/bla").to_return( body: 'bla' )
+      stub_request(:get, 'http://c3voc.de/wiki/bla').to_return( body: 'bla' )
       page = @scraper.get_page('http://c3voc.de/wiki/bla')
 
       page.body.should == 'bla'
