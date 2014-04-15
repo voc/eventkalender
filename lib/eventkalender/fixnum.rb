@@ -1,4 +1,3 @@
-# TODO: write tests
 # This class is used to determine time shifts in parser class
 class Fixnum
 

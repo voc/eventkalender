@@ -14,6 +14,7 @@ require 'haml'
 require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'parser.rb')
 require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'scraper.rb')
 require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event.rb')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'fixnum.rb')
 require File.join(File.dirname(__FILE__), '..', 'webapp.rb')
 
 RSpec.configure do |config|
