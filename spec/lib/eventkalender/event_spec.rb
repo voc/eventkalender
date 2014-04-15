@@ -46,15 +46,28 @@ describe Eventkalender::Event do
 
   describe '#check_date_input' do
     it 'should return Date object' do
+      # Input String
       date = @event.send(:check_date_input, '2023-05-23')
 
       date.kind_of?(Date).should be_true
       date.to_s.should == '2023-05-23'
 
+      # Input Date object
       date = @event.send(:check_date_input, Date.parse('24.12.2014'))
 
       date.kind_of?(Date).should be_true
       date.to_s.should == '2014-12-24'
+    end
+
+    it 'should raise invalid date exception for invalid date input' do
+      expect {
+        @event.send(:check_date_input, '202305')
+      }.to raise_error(ArgumentError)
+    end
+
+    it 'should return nil if input type is not a String or Date object' do
+      date = @event.send(:check_date_input, ['2023-05-23'])
+      date.should be_nil
     end
   end
 

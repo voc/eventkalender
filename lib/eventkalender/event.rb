@@ -10,8 +10,8 @@ class Eventkalender
     def initialize(options = {})
       @name       = options[:name]
       @location   = options[:location]
-      @start_date = check_date_input(options[:start_date]) unless options[:start_date].nil?
-      @end_date   = check_date_input(options[:end_date])   unless options[:end_date].nil?
+      @start_date = check_date_input(options[:start_date])
+      @end_date   = check_date_input(options[:end_date])
       @summary    = options[:summary]
     end
 
@@ -48,15 +48,20 @@ class Eventkalender
 
     protected
 
-    # Convert string dates into date object
+    # Convert (string) dates into date object
     #
     # @param [String] date
-    # @return [Date] date
+    # @return [Date] date or nil
     def check_date_input(date)
-      if date.kind_of? Date
-        date
-      else
-        Date.parse(date)
+      # Catching type class of input value
+      case date
+        when Date
+          date
+        when String
+          # Raised ArgumentError: invalid date error if parsing failed
+          Date.parse(date)
+        else
+          nil
       end
     end
 
