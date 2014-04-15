@@ -25,8 +25,8 @@ class Eventkalender
       # Events inside table are separated in rows
       event_rows = @events_table.search('./tr')
 
-      # Ugly workaround for xpath problems.
-      # This if clause is only needed for rspec and webmock.
+      # HACK: Ugly workaround for unknown xpath matching problems.
+      #       If clause is only needed for rspec and webmock.
       if event_rows.count == 0
         event_rows = @events_table.search('./*/tr')
       end
@@ -50,17 +50,15 @@ class Eventkalender
     def to_event(table_row)
       # Search all cols in event row
       raw_event = table_row.search('./td')
-      # Create new ical object
-      event     = Eventkalender::Event.new
-
-      # Add more information to ical object
-      event.name        = raw_event[0].text       # Event name
-      event.location    = raw_event[1].text       # Event location
-      event.start_date  = Eventkalender::Parser.date(raw_event[2].text) # Start date
-      event.end_date    = Eventkalender::Parser.date(raw_event[3].text) # End date plus one day to have last day also complete
-      event.description = raw_event[5].text       # URL
-
-      event
+      # Create new ical object and return it
+      event = Eventkalender::Event.new.tap { |e|
+        # Add more information to ical object
+        e.name        = raw_event[0].text       # Event name
+        e.location    = raw_event[1].text       # Event location
+        e.start_date  = Eventkalender::Parser.date(raw_event[2].text) # Start date
+        e.end_date    = Eventkalender::Parser.date(raw_event[3].text) # End date + 1 day to have last day also complete
+        e.description = raw_event[5].text       # URL
+      }
     end
 
     # Converts array with events into ical calendar
@@ -76,7 +74,7 @@ class Eventkalender
       end
 
       # Add every object in array to new created calendar
-      events.each{ |event| calendar.add( event.to_ical ) }
+      events.each { |event| calendar.add(event.to_ical) }
 
       calendar
     end
@@ -97,7 +95,7 @@ class Eventkalender
 
 
 EOS
-        end
+      end
 
       txt
     end
@@ -149,10 +147,19 @@ EOS
 
     # Date converter, witch converts strings into valid date objects if possible
     #
+    # @param [String] date content looks like 2014-12-24
     # @return [Date]
-    # @param [String] date_string content looks like 2014-12-24
-    def self.date(date_string)
-      Date.parse(date_string)
+    def self.date(date)
+      # Catching type class of input value
+      case date
+      when Date
+        date
+      when String
+        # Raised ArgumentError: invalid date error if parsing failed
+        Date.parse(date)
+      else
+        nil
+      end
     end
 
   end

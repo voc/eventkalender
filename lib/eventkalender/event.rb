@@ -51,16 +51,7 @@ class Eventkalender
     # @param [String] date
     # @return [Date] date or nil
     def check_date_input(date)
-      # Catching type class of input value
-      case date
-        when Date
-          date
-        when String
-          # Raised ArgumentError: invalid date error if parsing failed
-          Date.parse(date)
-        else
-          nil
-      end
+      Eventkalender::Parser.date(date)
     end
 
   end

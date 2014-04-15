@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Eventkalender::Event do
 
   before(:each) do
-    @event = Eventkalender::Event.new( name: 'my todes event',
-                                       location: 'todes location',
-                                       start_date: '24.04.1999',
-                                       end_date: '24.04.2000',
+    @event = Eventkalender::Event.new( name:        'my todes event',
+                                       location:    'todes location',
+                                       start_date:  '24.04.1999',
+                                       end_date:    '24.04.2000',
                                        describtion: 'http://example.com'
     )
   end

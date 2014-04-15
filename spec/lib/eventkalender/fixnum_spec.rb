@@ -5,15 +5,15 @@ describe 'Fixnum' do
     it 'should have seconds per day,
                     seconds per hour and
                     seconds per minutes defined' do
-      Fixnum::SECONDS_IN_DAY.should     == 86400
-      Fixnum::SECONDS_IN_HOUR.should    == 3600
+      Fixnum::SECONDS_IN_DAY.should     == 86_400
+      Fixnum::SECONDS_IN_HOUR.should    == 3_600
       Fixnum::SECONDS_IN_MINUTES.should == 60
     end
   end
 
   describe '.ago' do
     it 'should return a pased time stamp' do
-      2.days.ago.to_s.should == (Time.now - 172800).to_s
+      2.days.ago.to_s.should == (Time.now - 172_800).to_s
     end
 
     it 'should return Time object' do
@@ -33,7 +33,7 @@ describe 'Fixnum' do
 
   describe '.hours' do
     it 'should return hours in seconds' do
-      2.hours.should == 7200
+      2.hours.should == 7_200
     end
 
     it 'should return Fixnum object' do
@@ -43,7 +43,7 @@ describe 'Fixnum' do
 
   describe '.days' do
     it 'should return days in seconds' do
-      2.days.should == 172800
+      2.days.should == 172_800
     end
 
     it 'should return Fixnum object' do
