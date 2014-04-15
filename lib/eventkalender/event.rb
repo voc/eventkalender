@@ -35,15 +35,13 @@ class Eventkalender
     #
     # @return [Icalendar::Event] event
     def to_ical
-      event = Icalendar::Event.new
-
-      event.summary     = @name
-      event.location    = @location
-      event.start       = @start_date
-      event.end         = @end_date + 1 # TODO: DateTime would maybe a better choice
-      event.description = @description
-
-      event
+      event = Icalendar::Event.new.tap { |e|
+        e.summary     = @name
+        e.location    = @location
+        e.start       = @start_date
+        e.end         = @end_date + 1 # TODO: DateTime would maybe a better choice
+        e.description = @description
+      }
     end
 
     protected
