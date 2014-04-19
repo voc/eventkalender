@@ -9,7 +9,15 @@ Supported feed formats:
   * json → /events.json
   * txt  → /events.txt
 
-Tested against Ruby `1.9.3`, `2.0.0` and `2.1.1`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender)
+To filter for past or upcoming events, following keywords (e.g. `/events.txt?filter=past`) can be used:
+
+  * past
+  * upcoming
+  * today
+  * year (e.g. 2013)
+  * all (default)
+
+Eventkalender is tested against Ruby `1.9.3`, `2.0.0` and `2.1.1`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender)
 
 ## Install
 
@@ -34,7 +42,7 @@ Test installation and run application with puma.
 
 ## Deployment
 
-It is highly recommented to deploy this application with passenger or comparable webservers.
+It is highly recommended to deploy this application with passenger or comparable webservers.
 
 ## License
 

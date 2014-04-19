@@ -1,5 +1,10 @@
-%h1 c3voc events
+%h2 feeds
 %ul
-  - %w{ical atom json txt}.each do |format|
+  - %w{html ical atom json txt}.each do |format|
     %li
       %a{ href: url("/events.#{format}") }= format
+
+%sub
+  * apply filter e.g.
+  %code
+    \/events.txt?filter={past|upcoming|today|2013}

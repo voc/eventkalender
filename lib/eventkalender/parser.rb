@@ -14,10 +14,11 @@ class Eventkalender
 
     # Parsed content from dokuwiki page and returned Hash with events
     #
+    # @param [Boolean] force_scraping
     # @return [array]
-    def events
+    def events(force_scraping = false) # TODO: force_scraping needs test cases
       # Get events table from web page scraper or from instance variable
-      if @events_table.nil? || @timestamp - 20.minutes.ago < 0
+      if @events_table.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
         @events_table = Eventkalender::Scraper.scrape!
         @timestamp    = Time.now
       end
@@ -51,12 +52,12 @@ class Eventkalender
       # Search all cols in event row
       raw_event = table_row.search('./td')
       # Create new ical object and return it
-      event = Eventkalender::Event.new.tap { |e|
+      Eventkalender::Event.new.tap { |e|
         # Add more information to ical object
         e.name        = raw_event[0].text       # Event name
         e.location    = raw_event[1].text       # Event location
-        e.start_date  = Eventkalender::Parser.date(raw_event[2].text) # Start date
-        e.end_date    = Eventkalender::Parser.date(raw_event[3].text) # End date + 1 day to have last day also complete
+        e.start_date  = self.class.date(raw_event[2].text) # Start date
+        e.end_date    = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
         e.description = raw_event[5].text       # URL
       }
     end
@@ -69,10 +70,7 @@ class Eventkalender
       # Create new ical calendar
       calendar = Icalendar::Calendar.new
       # Setting time zone
-      calendar.timezone do
-        timezone_id = 'Europe/Berlin'
-      end
-
+      calendar.timezone { timezone_id = 'Europe/Berlin' }
       # Add every object in array to new created calendar
       events.each { |event| calendar.add(event.to_ical) }
 
@@ -160,6 +158,50 @@ EOS
       else
         nil
       end
+    end
+
+    # Filter for specific keywords or parameter
+    #
+    # @param [String, Array] filter, events
+    # @return [Array] events
+    def filter(filter, events = self.events)
+      filtered_events = []
+
+      case filter
+      # All past events
+      when /past/
+        events.each do |event|
+          if event.end_date <= Date.today
+            filtered_events << event
+          end
+        end
+      # All upcoming events
+      when /upcoming/
+        events.each do |event|
+          if event.end_date >= Date.today
+            filtered_events << event
+          end
+        end
+      # Currently running events
+      when /now|today/
+        events.each do |event|
+          if event.start_date <= Date.today && event.end_date >= Date.today
+            filtered_events << event
+          end
+        end
+      # Match a year
+      when /\d{4}/
+        events.each do |event|
+          if event.start_date.year == filter.to_i
+            filtered_events << event
+          end
+        end
+      # Return all events if no filter is set
+      else
+        filtered_events = events
+      end
+
+      filtered_events
     end
 
   end

@@ -1,0 +1,24 @@
+%h2= params[:filter].nil? || params[:filter] =~ /all/ ? 'past and upcoming' : params[:filter]
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Start
+      %th End
+      %th Location
+      %th Website
+  %tbody
+    - settings.parser.filter(params[:filter]).each do |event|
+      %tr
+        %td= event.name
+        %td= event.start_date
+        %td= event.end_date
+        %td= event.location
+        %td
+          - begin
+            %a{ href: URI.parse(event.description) }= event.description
+          - rescue URI::InvalidURIError
+            = event.description
+
+%a{ href: url('/') } ← back
