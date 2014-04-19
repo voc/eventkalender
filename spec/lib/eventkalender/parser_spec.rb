@@ -19,7 +19,7 @@ describe Eventkalender::Parser do
     end
   end
 
-  describe '.to_ical_calendar' do
+  describe '#to_ical_calendar' do
     it 'should accept a list of events' do
       calendar = @parser.to_ical_calendar
 
@@ -76,6 +76,31 @@ describe Eventkalender::Parser do
 
       json.class.should == String
       json.should =~ /{"voc_events"/
+    end
+  end
+
+  describe '#filter' do
+    it 'should filter events' do
+      events = @parser.filter('past')
+      events.count.should be 1
+
+      events = @parser.filter('upcoming')
+      events.count.should be 7
+
+      events = @parser.filter('2014')
+      events.count.should be 8
+
+      events = @parser.filter('2013')
+      events.count.should be 0
+
+      events = @parser.filter('random_input')
+      events.count.should be 8
+    end
+
+    it 'should return events array' do
+      events = @parser.filter('all')
+
+      events.last.class.should == Eventkalender::Event
     end
   end
 end

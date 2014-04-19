@@ -11,10 +11,10 @@ require 'rack/test'
 require 'sinatra'
 require 'haml'
 
-require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'parser.rb')
-require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'scraper.rb')
-require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event.rb')
-require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'fixnum.rb')
+%w{parser scraper event fixnum}.each do |file|
+  require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', "#{file}.rb")
+end
+
 require File.join(File.dirname(__FILE__), '..', 'webapp.rb')
 
 RSpec.configure do |config|
