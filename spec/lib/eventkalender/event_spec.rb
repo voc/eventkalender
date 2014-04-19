@@ -3,12 +3,11 @@ require 'spec_helper'
 describe Eventkalender::Event do
 
   before(:each) do
-    @event = Eventkalender::Event.new( name:        'my todes event',
-                                       location:    'todes location',
-                                       start_date:  '24.04.1999',
-                                       end_date:    '24.04.2000',
-                                       describtion: 'http://example.com'
-    )
+    @event = Eventkalender::Event.new(name:        'my todes event',
+                                      location:    'todes location',
+                                      start_date:  '24.04.1999',
+                                      end_date:    '24.04.2000',
+                                      description: 'http://example.com')
   end
 
   after(:each) do
@@ -17,17 +16,21 @@ describe Eventkalender::Event do
 
   describe '#new' do
     it 'should accept options hash' do
-      event = @event
-
-      event.name.should == 'my todes event'
-      event.location.should == 'todes location'
-      event.start_date.should == Date.parse('24.04.1999')
+      @event.name.should        == 'my todes event'
+      @event.location.should    == 'todes location'
+      @event.start_date.should  == Date.parse('24.04.1999')
+      @event.end_date.should    == Date.parse('24.04.2000')
+      @event.description.should == 'http://example.com'
     end
   end
 
   describe 'getter' do
-    it 'should be possible to get name' do
-      @event.location.should == 'todes location'
+    it 'should be possible to get name, description, location, start_date and end_date' do
+      @event.name.should        == 'my todes event'
+      @event.location.should    == 'todes location'
+      @event.start_date.should  == Date.parse('24.04.1999')
+      @event.end_date.should    == Date.parse('24.04.2000')
+      @event.description.should == 'http://example.com'
     end
 
   end
@@ -41,6 +44,11 @@ describe Eventkalender::Event do
     it 'should be possible to set event location' do
       @event.location = 'new todes location'
       @event.location.should == 'new todes location'
+    end
+
+    it 'should be possible to set event description ' do
+      @event.description = 'new description'
+      @event.description.should == 'new description'
     end
   end
 

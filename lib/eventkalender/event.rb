@@ -8,11 +8,11 @@ class Eventkalender
     #
     # @param [Hash] options
     def initialize(options = {})
-      @name       = options[:name]
-      @location   = options[:location]
-      @start_date = check_date_input(options[:start_date])
-      @end_date   = check_date_input(options[:end_date])
-      @summary    = options[:summary]
+      @name        = options[:name]
+      @location    = options[:location]
+      @start_date  = check_date_input(options[:start_date])
+      @end_date    = check_date_input(options[:end_date])
+      @description = options[:description]
     end
 
     # Setter for start_date
