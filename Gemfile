@@ -7,7 +7,7 @@ gem 'haml', '~> 4.0.5'
 # ical lib
 gem 'icalendar', '~> 1.5.0'
 # parsing
-gem 'mechanize', '~> 2.7.0'
+gem 'mechanize', '~> 2.7.3'
 # testing
 gem 'rspec', '~> 2.14.1'
 gem 'webmock', '~> 1.17.4'
