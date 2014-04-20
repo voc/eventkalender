@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake', '~> 10.1.1'
 # webframework
-gem 'sinatra', '~> 1.4.4'
+gem 'sinatra', '~> 1.4.5'
 gem 'haml', '~> 4.0.5'
 # ical lib
 gem 'icalendar', '~> 1.5.0'
