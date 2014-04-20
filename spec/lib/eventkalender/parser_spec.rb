@@ -17,6 +17,20 @@ describe Eventkalender::Parser do
       events.first.class.should be Eventkalender::Event
       events.last.class.should be Eventkalender::Event
     end
+
+    it 'should be possible to force scraping' do
+      # force scraping
+      @parser.events(force_scraping = true)
+      current_time = Time.now
+
+      @parser.timestamp.to_s.should == current_time.to_s
+
+      sleep 1
+
+      # do not force
+      @parser.events
+      @parser.timestamp.to_s.should_not == Time.now.to_s
+    end
   end
 
   describe '#to_ical_calendar' do

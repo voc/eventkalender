@@ -16,7 +16,7 @@ class Eventkalender
     #
     # @param [Boolean] force_scraping
     # @return [array]
-    def events(force_scraping = false) # TODO: force_scraping needs test cases
+    def events(force_scraping = false)
       # Get events table from web page scraper or from instance variable
       if @events_table.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
         @events_table = Eventkalender::Scraper.scrape!
