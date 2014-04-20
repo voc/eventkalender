@@ -35,7 +35,8 @@ class Eventkalender
     #
     # @return [Icalendar::Event] event
     def to_ical
-      event = Icalendar::Event.new.tap { |e|
+      # return ical event
+      Icalendar::Event.new.tap { |e|
         e.summary     = @name
         e.location    = @location
         e.start       = @start_date
