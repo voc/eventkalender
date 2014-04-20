@@ -95,20 +95,36 @@ describe Eventkalender::Parser do
 
   describe '#filter' do
     it 'should filter events' do
+      # case past
       events = @parser.filter('past')
       events.count.should be 1
 
+      # case upcoming
       events = @parser.filter('upcoming')
       events.count.should be 7
 
+      # case year
       events = @parser.filter('2014')
       events.count.should be 8
 
+      # case year
       events = @parser.filter('2013')
       events.count.should be 0
 
+      # default case
       events = @parser.filter('random_input')
       events.count.should be 8
+
+      # case today
+      date_today = Date.parse('Mai 23 1942')
+      # overwrite Date.today
+      Date.stub(:today).and_return(date_today)
+
+      events = @parser.events
+      events.last.start_date, events.first.start_date = date_today, date_today
+      events.last.end_date, events.first.end_date     = date_today, date_today + 1
+
+      @parser.filter('today', events).count.should be 2
     end
 
     it 'should return events array' do
