@@ -95,6 +95,9 @@ describe Eventkalender::Parser do
 
   describe '#filter' do
     it 'should filter events' do
+      # Overwrite Date.today to have every time same conditions
+      Date.stub(:today).and_return(Date.parse('2014-04-15'))
+
       # case past
       events = @parser.filter('past')
       events.count.should be 1
