@@ -140,7 +140,7 @@ EOS
         hash[:voc_events][event.name][:description] = event.description
       end
 
-      JSON.generate(hash)
+      JSON.pretty_generate(hash)
     end
 
     # Date converter, witch converts strings into valid date objects if possible

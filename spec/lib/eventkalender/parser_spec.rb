@@ -89,7 +89,7 @@ describe Eventkalender::Parser do
       json = @parser.to_json
 
       json.class.should == String
-      json.should =~ /{"voc_events"/
+      json.should =~ /{\n  \"voc_events\":/
     end
   end
 
