@@ -59,6 +59,11 @@ class Eventkalender
         e.start_date  = self.class.date(raw_event[2].text) # Start date
         e.end_date    = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
         e.description = raw_event[5].text       # URL
+        e.streaming   = detect_streaming(raw_event[7].text) # Is streaming planed?
+
+        url_path = raw_event[0].xpath('./a[@href]')[0]['href']
+        e.short_name  = /^.*\/(.*)$/.match(url_path)[1]
+        e.wiki_path   = url_path
       }
     end
 
@@ -133,11 +138,14 @@ EOS
 
       events.each do |event|
         hash[:voc_events][event.name] = {}
-        hash[:voc_events][event.name][:name] = event.name
-        hash[:voc_events][event.name][:location] = event.location
-        hash[:voc_events][event.name][:start_date] = event.start_date
-        hash[:voc_events][event.name][:end_date] = event.end_date
-        hash[:voc_events][event.name][:description] = event.description
+        hash[:voc_events][event.name][:name]          = event.name
+        hash[:voc_events][event.name][:short_name]    = event.short_name
+        hash[:voc_events][event.name][:location]      = event.location
+        hash[:voc_events][event.name][:start_date]    = event.start_date
+        hash[:voc_events][event.name][:end_date]      = event.end_date
+        hash[:voc_events][event.name][:description]   = event.description
+        hash[:voc_events][event.name][:voc_wiki_path] = event.wiki_path
+        hash[:voc_events][event.name][:streaming]     = event.streaming
       end
 
       JSON.pretty_generate(hash)
@@ -202,6 +210,21 @@ EOS
       end
 
       filtered_events
+    end
+
+    # Detect if there is live streaming planed
+    #
+    # @param [String] string
+    # @return [Boolean]
+    def detect_streaming(string)
+      case string
+      when /[Jj]a|[Yy]es/
+        true
+      when /[Nn]ein|[Nn]o/
+        false
+      else
+        nil
+      end
     end
 
   end

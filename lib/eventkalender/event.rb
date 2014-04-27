@@ -2,7 +2,7 @@ class Eventkalender
   class Event
 
     attr_reader   :start_date, :end_date
-    attr_accessor :name, :location, :description
+    attr_accessor :name, :location, :description, :short_name, :wiki_path, :streaming
 
     # Create new event object
     #
@@ -13,6 +13,10 @@ class Eventkalender
       @start_date  = check_date_input(options[:start_date])
       @end_date    = check_date_input(options[:end_date])
       @description = options[:description]
+      # optional
+      @wiki_path   = options[:wiki_path]
+      @short_name  = options[:short_name]
+      @streaming   = options[:streaming]
     end
 
     # Setter for start_date
