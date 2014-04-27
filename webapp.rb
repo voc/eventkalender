@@ -17,14 +17,17 @@ end
 # Formats
 get '/events.ical' do
   content_type 'text/calendar'
-  cal = settings.parser.to_ical_calendar(settings.parser.filter(params[:filter]))
+  filter = { general: params[:filter], streaming: params[:streaming] }
+  cal = settings.parser.to_ical_calendar(settings.parser.filter(filter))
 
   cal.to_ical
 end
 
 get '/events.atom' do
   content_type 'application/atom+xml'
-  feed = settings.parser.to_atom(settings.parser.filter(params[:filter]))
+
+  filter = { general: params[:filter], streaming: params[:streaming] }
+  feed = settings.parser.to_atom(settings.parser.filter(filter))
 
   feed.to_s
 end
@@ -32,12 +35,15 @@ end
 get '/events.txt' do
   content_type 'text/plain'
 
-  settings.parser.to_txt(settings.parser.filter(params[:filter]))
+  filter = { general: params[:filter], streaming: params[:streaming] }
+  settings.parser.to_txt(settings.parser.filter(filter))
 end
 
 get '/events.json' do
   content_type 'application/json'
-  json = settings.parser.to_json(settings.parser.filter(params[:filter]))
+
+  filter = { general: params[:filter], streaming: params[:streaming] }
+  json = settings.parser.to_json(settings.parser.filter(filter))
 
   json.to_s
 end

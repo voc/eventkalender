@@ -1,4 +1,7 @@
-%h2= params[:filter].nil? || params[:filter] =~ /all/ ? 'past and upcoming' : params[:filter]
+- headline = params[:filter].nil? || params[:filter] =~ /all/ ? 'past and upcoming' : params[:filter]
+- headline += params[:streaming].nil? ? '' : ", streaming: #{params[:streaming]}"
+
+%h2= headline
 
 %table
   %thead
@@ -9,7 +12,7 @@
       %th Location
       %th Website
   %tbody
-    - settings.parser.filter(params[:filter]).each do |event|
+    - settings.parser.filter({ general: params[:filter], streaming: params[:streaming] }).each do |event|
       %tr
         %td= event.name
         %td= event.start_date

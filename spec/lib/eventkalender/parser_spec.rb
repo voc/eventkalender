@@ -118,23 +118,24 @@ describe Eventkalender::Parser do
       Date.stub(:today).and_return(Date.parse('2014-04-15'))
 
       # case past
-      events = @parser.filter('past')
+      events = @parser.filter( { general: 'past' } )
       events.count.should be 1
+      events.first.name.should =~ /FOSSGIS/
 
       # case upcoming
-      events = @parser.filter('upcoming')
+      events = @parser.filter( { general: 'upcoming' } )
       events.count.should be 7
 
       # case year
-      events = @parser.filter('2014')
+      events = @parser.filter( { general: '2014' } )
       events.count.should be 8
 
       # case year
-      events = @parser.filter('2013')
+      events = @parser.filter( { general:'2013' } )
       events.count.should be 0
 
       # default case
-      events = @parser.filter('random_input')
+      events = @parser.filter( { general: 'random_input' })
       events.count.should be 8
 
       # case today
@@ -146,13 +147,48 @@ describe Eventkalender::Parser do
       events.last.start_date, events.first.start_date = date_today, date_today
       events.last.end_date, events.first.end_date     = date_today, date_today + 1
 
-      @parser.filter('today', events).count.should be 2
+      @parser.filter( { general: 'today' }, events).count.should be 2
     end
 
     it 'should return events array' do
-      events = @parser.filter('all')
+      events = @parser.filter( { general: 'all' } )
 
       events.last.class.should == Eventkalender::Event
+    end
+
+    it 'should accept streaming filter' do
+      # Overwrite Date.today to have every time same conditions
+      Date.stub(:today).and_return(Date.parse('2014-04-15'))
+
+      # case past, streaming off
+      events = @parser.filter( { general: 'past', streaming: 'false' } )
+      events.count.should be 0
+
+      # case past, streaming off
+      events = @parser.filter( { general: 'past', streaming: 'true' } )
+      events.count.should be 1
+      events.first.name.should =~ /FOSSGIS/
+
+      # case upcoming, streaming on
+      events = @parser.filter( { general: 'upcoming', streaming: 'true' } )
+      events.count.should be 6
+      events.last.name.should =~ /31C3/
+    end
+  end
+
+  describe '#filter_streaming' do
+    it 'should filter events' do
+      # Overwrite Date.today to have every time same conditions
+      Date.stub(:today).and_return(Date.parse('2014-04-15'))
+
+      events = @parser.filter_streaming('false')
+      events.count.should be 0
+
+      events = @parser.filter_streaming('true')
+      events.count.should be 7
+
+      events = @parser.filter_streaming('undefined')
+      events.count.should be 1
     end
   end
 

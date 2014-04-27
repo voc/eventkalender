@@ -1,6 +1,9 @@
 # eventkalender
 
-Small sinatra web application to serve feeds for [c3voc](http://c3voc.de) [events](https://c3voc.de/wiki/events).
+Small [sinatra](http://www.sinatrarb.com/) web application to serve [feeds](https://c3voc.de/eventkalender) for [c3voc](http://c3voc.de) [events](https://c3voc.de/wiki/events).<br>
+Eventkalender is tested against Ruby `1.9.3`, `2.0.0` and `2.1.1`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender)
+
+## Usage
 
 Supported feed formats:
 
@@ -8,6 +11,8 @@ Supported feed formats:
   * atom → /events.atom
   * json → /events.json
   * txt  → /events.txt
+
+### Filter
 
 To filter for past or upcoming events, following keywords (e.g. `/events.txt?filter=past`) can be used:
 
@@ -17,7 +22,33 @@ To filter for past or upcoming events, following keywords (e.g. `/events.txt?fil
   * year (e.g. 2013)
   * all (default)
 
-Eventkalender is tested against Ruby `1.9.3`, `2.0.0` and `2.1.1`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender)
+A filter for live streaming is also available (`/events.txt?streaming=true`).
+
+### Example output
+
+JSON `/events.json?filter=past&streaming=true`:
+
+```
+{
+  "voc_events": {
+    "FOSSGIS 2014": {
+      "name": "FOSSGIS 2014",
+      "short_name": "fossgis2014",
+      "location": "Berlin",
+      "start_date": "2014-03-19",
+      "end_date": "2014-03-21",
+      "description": "http://www.fossgis.de/konferenz/2014",
+      "voc_wiki_path": "/wiki/fossgis2014",
+      "streaming": true
+    }
+  }
+}
+```
+
+TXT `/events.json?filter=past&streaming=false`:
+
+> Hackover 14 - Hannover<br>
+> 24.10.2014 - 26.10.2014
 
 ## Install
 

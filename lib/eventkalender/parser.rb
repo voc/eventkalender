@@ -169,13 +169,18 @@ EOS
     end
 
     # Filter for specific keywords or parameter
+    # TODO: Filtering for time and streaming is ugly implemented.
+    #       Looping and checking multiple times should be removed, soon.
     #
-    # @param [String, Array] filter, events
+    # @param [Hash, Array] filter, events
     # @return [Array] events
     def filter(filter, events = self.events)
+      filter_general   = filter[:general]
+      filter_streaming = filter[:streaming]
+
       filtered_events = []
 
-      case filter
+      case filter_general
       # All past events
       when /past/
         events.each do |event|
@@ -200,11 +205,44 @@ EOS
       # Match a year
       when /\d{4}/
         events.each do |event|
-          if event.start_date.year == filter.to_i
+          if event.start_date.year == filter_general.to_i
             filtered_events << event
           end
         end
       # Return all events if no filter is set
+      else
+        filtered_events = events
+      end
+
+      filter_streaming(filter_streaming, filtered_events)
+    end
+
+    # Filter for events with streaming status
+    #
+    # @params [String, Array] filter, events
+    # @return [Array] events
+    def filter_streaming(filter, events = self.events)
+      filtered_events = []
+
+      case filter
+      when /true|yes/
+        events.each do |event|
+          if event.streaming == true
+            filtered_events << event
+          end
+        end
+      when /false|no/
+        events.each do |event|
+          if event.streaming == false
+            filtered_events << event
+          end
+        end
+      when /undefined|nil|null/
+        events.each do |event|
+          if event.streaming.nil? || event.streaming == ''
+            filtered_events << event
+          end
+        end
       else
         filtered_events = events
       end
