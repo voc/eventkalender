@@ -7,7 +7,9 @@ describe Eventkalender::Event do
                                       location:    'todes location',
                                       start_date:  '24.04.1999',
                                       end_date:    '24.04.2000',
-                                      description: 'http://example.com')
+                                      description: 'http://example.com',
+                                      short_name:  'h5n1',
+                                      wiki_path:    '/wiki/h5n1')
   end
 
   after(:each) do
@@ -21,6 +23,8 @@ describe Eventkalender::Event do
       @event.start_date.should  == Date.parse('24.04.1999')
       @event.end_date.should    == Date.parse('24.04.2000')
       @event.description.should == 'http://example.com'
+      @event.short_name.should  == 'h5n1'
+      @event.wiki_path.should   == '/wiki/h5n1'
     end
   end
 
@@ -31,6 +35,8 @@ describe Eventkalender::Event do
       @event.start_date.should  == Date.parse('24.04.1999')
       @event.end_date.should    == Date.parse('24.04.2000')
       @event.description.should == 'http://example.com'
+      @event.short_name.should  == 'h5n1'
+      @event.wiki_path.should   == '/wiki/h5n1'
     end
 
   end
@@ -46,9 +52,19 @@ describe Eventkalender::Event do
       @event.location.should == 'new todes location'
     end
 
-    it 'should be possible to set event description ' do
+    it 'should be possible to set event description' do
       @event.description = 'new description'
       @event.description.should == 'new description'
+    end
+
+    it 'should be possible to set (voc) event wiki path' do
+      @event.wiki_path = '/wiki/url'
+      @event.wiki_path.to_s.should == '/wiki/url'
+    end
+
+    it 'should be possible to set event short name' do
+      @event.short_name = 'short name'
+      @event.short_name.should == 'short name'
     end
   end
 

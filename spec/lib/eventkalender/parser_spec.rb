@@ -4,6 +4,7 @@ describe Eventkalender::Parser do
 
   before(:each) do
     @parser = Eventkalender::Parser.new
+    @scraper = Eventkalender::Scraper.new
   end
 
   after(:each) do
@@ -30,6 +31,24 @@ describe Eventkalender::Parser do
       # do not force
       @parser.events
       @parser.timestamp.to_s.should_not == Time.now.to_s
+    end
+  end
+
+  describe '#to_event' do
+    it 'should genetrate Eventkalender::Event object' do
+      table = @scraper.get_table
+      rows = table.search('./*/tr')
+
+      event = @parser.to_event(rows[2])
+      event.name.should            =~ /Easterhegg 2014/
+      event.location.should        =~ /Stuttgart/
+      event.start_date.to_s.should =~ /2014-04-18/
+      event.end_date.to_s.should   =~ /2014-04-21/
+      event.description.should     =~ /https:\/\/eh14.easterhegg.eu\//
+      event.streaming.should       == true
+      event.short_name.should      =~ /easterhegg14/
+      event.wiki_path.to_s.should  =~ /\/wiki\/easterhegg14/
+      event.wiki_path.class.should be String
     end
   end
 
@@ -136,4 +155,16 @@ describe Eventkalender::Parser do
       events.last.class.should == Eventkalender::Event
     end
   end
+
+  describe '#detect_streaming' do
+    it 'should return false, true or nil' do
+      @parser.detect_streaming('ja').should be_true
+      @parser.detect_streaming('Ja').should be_true
+      @parser.detect_streaming('nein').should be_false
+      @parser.detect_streaming('vielleicht').should be_nil
+      @parser.detect_streaming('').should be_nil
+      @parser.detect_streaming(nil).should be_nil
+    end
+  end
+
 end
