@@ -45,7 +45,7 @@ JSON `/events.json?filter=past&streaming=true`:
 }
 ```
 
-TXT `/events.json?filter=past&streaming=false`:
+TXT `/events.txt?filter=upcoming&streaming=false`:
 
 > Hackover 14 - Hannover<br>
 > 24.10.2014 - 26.10.2014
