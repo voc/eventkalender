@@ -134,7 +134,7 @@ EOS
     # @param [Array] events
     # @return [JSON] json
     def to_json(events = self.events)
-      hash = { voc_events: {} }
+      hash = { voc_events: {}, voc_events_count: {} }
 
       events.each do |event|
         hash[:voc_events][event.name] = {}
@@ -147,6 +147,12 @@ EOS
         hash[:voc_events][event.name][:voc_wiki_path] = event.wiki_path
         hash[:voc_events][event.name][:streaming]     = event.streaming
       end
+
+      # Adding statistical data
+      hash[:voc_events_count][:all]                 = events.count
+      hash[:voc_events_count][:with_streaming]      = filter_streaming('true', events).count
+      hash[:voc_events_count][:without_streaming]   = filter_streaming('false', events).count
+      hash[:voc_events_count][:undefined_streaming] = filter_streaming('nil', events).count
 
       JSON.pretty_generate(hash)
     end

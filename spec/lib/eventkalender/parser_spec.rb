@@ -110,6 +110,15 @@ describe Eventkalender::Parser do
       json.class.should == String
       json.should =~ /{\n  \"voc_events\":/
     end
+
+    it 'should have some statistical data' do
+      data = JSON.parse(@parser.to_json)
+
+      data['voc_events_count']['all'].should be 8
+      data['voc_events_count']['with_streaming'].should be 7
+      data['voc_events_count']['without_streaming'].should be 0
+      data['voc_events_count']['undefined_streaming'].should be 1
+    end
   end
 
   describe '#filter' do

@@ -42,6 +42,12 @@ JSON `/events.json?filter=past&streaming=true`:
       "streaming": true
     }
   }
+  "voc_events_count": {
+    "all": 1,
+    "with_streaming": 1,
+    "without_streaming": 0,
+    "undefined_streaming": 0
+  }
 }
 ```
 
