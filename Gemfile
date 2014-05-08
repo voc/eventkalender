@@ -17,5 +17,6 @@ group :development do
   gem 'rack', '~> 1.4.5'
   gem 'rack-test', '~> 0.6.2'
   gem 'tux', '~> 0.3.0'
+  gem 'inch', '~> 0.4.5'
 end
 
