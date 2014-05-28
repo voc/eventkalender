@@ -3,9 +3,13 @@ require_relative 'eventkalender/parser'
 require_relative 'eventkalender/scraper'
 require_relative 'eventkalender/fixnum'
 
+# Main class witch holds version number and application name.
+# The real magic is done by all in sub classes.
 class Eventkalender
 
+  # eventkalender version number
   VERSION = '0.0.5'
+  # application name
   NAME    = 'eventkalender'
 
 end

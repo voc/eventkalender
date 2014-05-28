@@ -6,16 +6,32 @@ require 'json'
 # gem
 require 'icalendar'
 
-# Parse dokuwiki table and return events in multiple formats
+
 class Eventkalender
+  # Parser class can be used to parse dokuwiki table and return events in multiple formats.
+  #
+  # @example Create parser to parse voc wiki events page.
+  #   parser = Eventkalender::Parser.new
+  #   parser.events #=>  [#<Eventkalender::Event:0x00000002a49f78 … ]
+  #
+  # @example Convert date String into Date object.
+  #   Eventkalender::Parser.date('23-12-2014') #=> #<Date: 2014-12-23 ((2457015j,0s,0n),+0s,2299161j)>
+  #
+  # @!attribute [r] events_table
+  #   @return [Nokogiri::XML::Element] Contains scraped event table.
+  # @!attribute [r] timestamp
+  #   @return [Time] Last scraping time.
   class Parser
 
     attr_reader :events_table, :timestamp
 
-    # Parsed content from dokuwiki page and returned Hash with events
+    # Parsed content from dokuwiki page and returned Hash with events.
     #
-    # @param [Boolean] force_scraping
-    # @return [array]
+    # @example Scrape events
+    #   parser.events(true) #=> [#<Eventkalender::Event:0x0000000332e300 @name=…, …]
+    #
+    # @param force_scraping [Boolean] to force scraping
+    # @return [Array] scraped events
     def events(force_scraping = false)
       # Get events table from web page scraper or from instance variable
       if @events_table.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
@@ -23,7 +39,7 @@ class Eventkalender
         @timestamp    = Time.now
       end
 
-      # Events inside table are separated in rows
+      # Events inside table are separated in rows.
       event_rows = @events_table.search('./tr')
 
       # HACK: Ugly workaround for unknown xpath matching problems.
@@ -32,7 +48,7 @@ class Eventkalender
         event_rows = @events_table.search('./*/tr')
       end
 
-      # Iterate over all rows and create ical events for every event
+      # Iterate over all rows and create ical events for every event.
       events = event_rows.map do |row|
         # Skip headlines
         next if row.search('./td').empty?
@@ -44,16 +60,16 @@ class Eventkalender
       events.compact
     end
 
-    # Converts string into event object
+    # Converts string into event object.
     #
-    # @param [Nokogiri::XML::Element] table_row
+    # @param table_row [Nokogiri::XML::Element] that should be converted to an event
     # @return [Event] event
     def to_event(table_row)
-      # Search all cols in event row
+      # Search all cols in event row.
       raw_event = table_row.search('./td')
       # Create new ical object and return it
       Eventkalender::Event.new.tap { |e|
-        # Add more information to ical object
+        # Add more information to ical object.
         e.name        = raw_event[0].text       # Event name
         e.location    = raw_event[1].text       # Event location
         e.start_date  = self.class.date(raw_event[2].text) # Start date
@@ -67,10 +83,10 @@ class Eventkalender
       }
     end
 
-    # Converts array with events into ical calendar
+    # Converts array with events into ical calendar.
     #
-    # @param [Array] events
-    # @return [Icalendar::Calendar]
+    # @param events [Array<Event>, #events] to convert to an ical calender
+    # @return [Icalendar::Calendar] converted events
     def to_ical_calendar(events = self.events)
       # Create new ical calendar
       calendar = Icalendar::Calendar.new
@@ -82,9 +98,12 @@ class Eventkalender
       calendar
     end
 
-    # Converts events array to plain text
+    # Converts events array to plain text.
     #
-    # @param [Array] events
+    # @example Convert events to text.
+    #   parser.to_txt(events) #=> "Hack*n*Play2 - Freiburg21.02.2014 - 23.02.2014"
+    #
+    # @param events [Array<Event>, #events] to convert to plain text
     # @return [String] txt file
     def to_txt(events = self.events)
       # Create empty string
@@ -92,21 +111,27 @@ class Eventkalender
 
       events.each do |event|
         # Add event to string
-        txt << <<EOS
-#{event.name} - #{event.location}
-#{event.start_date.strftime('%d.%m.%Y')} - #{event.end_date.strftime('%d.%m.%Y')}
+        txt << "#{event.name} - #{event.location}"
+        txt << "#{event.start_date.strftime('%d.%m.%Y')} - #{event.end_date.strftime('%d.%m.%Y')}"
 
-
-EOS
+        # Adding two empty lines when current event is not the last one
+        unless events.last.name == event.name
+          2.times do
+            txt << ''
+          end
+        end
       end
 
       txt
     end
 
-    # Create atom feed from given events array
+    # Create atom feed from given events array.
     #
-    # @param [Array] events
-    # @return [RSS::Atom::Feed] feed
+    # @example Generate rss feed for given events.
+    #   parser.events #=>  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<feed xmlns=\"http://www.w3.org/2005/Atom\" …"
+    #
+    # @param events [Array<Event>, #events] to convert to an atom feed
+    # @return [RSS::Atom::Feed] created rss feed
     def to_atom(events = self.events)
       RSS::Maker.make('atom') do |maker|
         maker.channel.author  = 'eventkalender'
@@ -116,23 +141,24 @@ EOS
 
         events.each { |event|
           maker.items.new_item do |item|
+            item.updated     = Time.now.to_s
             item.title       = event.name
-            item.id          = <<EOS
-#{event.name.gsub(' ', '')}#{event.start_date}#{event.end_date}
-EOS
-            item.description = <<EOS
-#{event.name} in #{event.location} vom #{event.start_date.strftime('%d.%m.%Y')} bis #{event.end_date.strftime('%d.%m.%Y')}.
-EOS
-            item.updated = Time.now.to_s
+            item.id          = "#{event.name.gsub(' ', '')}#{event.start_date}#{event.end_date}"
+            item.description = "#{event.name} in #{event.location} "\
+                               "vom #{event.start_date.strftime('%d.%m.%Y')} "\
+                               "bis #{event.end_date.strftime('%d.%m.%Y')}."
           end
         }
       end
     end
 
-    # Create json stream from a give events array
+    # Create json stream from a give events array.
     #
-    # @param [Array] events
-    # @return [JSON] json
+    # @example Convert given events to json
+    #   parser.to_json #=> ""{\n  \"voc_events\": {\n    …"
+    #
+    # @param events [Array<Event>, #events] to convert to json
+    # @return [JSON] events in json
     def to_json(events = self.events)
       hash = { voc_events: {}, voc_events_count: {} }
 
@@ -157,29 +183,41 @@ EOS
       JSON.pretty_generate(hash)
     end
 
-    # Date converter, witch converts strings into valid date objects if possible
+    # Date converter, witch converts strings into valid date objects if possible.
     #
-    # @param [String] date content looks like 2014-12-24
-    # @return [Date]
+    # @example Parse date string
+    #   Eventkalender::parser.date('2014-12-24') #=> #<Date: 2014-12-24 ((2457016j,0s,0n),+0s,2299161j)>
+    #
+    # @raise
+    #   [ArgumentError] if invalid date is given and parsing failed
+    # @param date [String] content looks like
+    # @return [Date, nil] created date object or nil if creation failed
     def self.date(date)
       # Catching type class of input value
       case date
       when Date
         date
       when String
-        # Raised ArgumentError: invalid date error if parsing failed
         Date.parse(date)
       else
         nil
       end
     end
 
-    # Filter for specific keywords or parameter
-    # TODO: Filtering for time and streaming is ugly implemented.
-    #       Looping and checking multiple times should be removed, soon.
+    # Filter for specific keywords or parameter.
+    # @todo
+    #   Filtering for time and streaming is ugly implemented.
+    #   Looping and checking multiple times should be removed, soon.
     #
-    # @param [Hash, Array] filter, events
-    # @return [Array] events
+    # @example Filter for past events
+    #   parser.filter({ general: past, streaming: true }) #=> [#<Eventkalender::Event:0x00000002ab5b88 … >, …]
+    #
+    # @param filter [Hash] used for filtering
+    # @option filter [String] :general Normal filter option
+    # @option filter [String] :streaming Streaming status
+    # @param events [Array<Event>, #events] witch schould be filtered
+    #
+    # @return [Array] with filtered events
     def filter(filter, events = self.events)
       filter_general   = filter[:general]
       filter_streaming = filter[:streaming]
@@ -223,10 +261,15 @@ EOS
       filter_streaming(filter_streaming, filtered_events)
     end
 
-    # Filter for events with streaming status
+    # Filter for events with streaming status.
     #
-    # @params [String, Array] filter, events
-    # @return [Array] events
+    # @example Filter  for events with streaming
+    #   parser.filter_streaming('true') #=>  [#<Eventkalender::Event:0x000000036b6810 … @streaming=true>, …]
+    #
+    # @param filter [String] witch is used for filtering
+    # @param events [Array<Event>, #events] to filter
+    #
+    # @return [Array] events witch match the given filter
     def filter_streaming(filter, events = self.events)
       filtered_events = []
 
@@ -256,10 +299,13 @@ EOS
       filtered_events
     end
 
-    # Detect if there is live streaming planed
+    # Detect if there is live streaming planed.
     #
-    # @param [String] string
-    # @return [Boolean]
+    # @example
+    #   parser.detect_streaming('yes') #=> true
+    #
+    # @param string [String] to check
+    # @return [Boolean, nil] streaming status true or false or not defined
     def detect_streaming(string)
       case string
       when /[Jj]a|[Yy]es/
