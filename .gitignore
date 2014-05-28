@@ -2,3 +2,5 @@ tmp
 coverage
 .idea
 *example
+.inch
+.yardoc
