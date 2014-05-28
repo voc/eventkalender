@@ -26,7 +26,7 @@ describe Eventkalender::Parser do
 
       @parser.timestamp.to_s.should == current_time.to_s
 
-      sleep 1
+      sleep 2
 
       # do not force
       @parser.events
