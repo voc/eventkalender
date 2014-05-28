@@ -21,8 +21,8 @@ class Eventkalender
   #   @return [String] event streaming status
   class Event
 
-    attr_reader :start_date, :end_date
-    attr_accessor :name, :location, :description, :short_name, :wiki_path, :streaming
+    attr_reader :start_date, :end_date, :streaming
+    attr_accessor :name, :location, :description, :short_name, :wiki_path
 
     # Create new event object
     #
@@ -36,15 +36,15 @@ class Eventkalender
     # @option options [String] :short_name The event short name
     # @option options [String] :streaming Planed event streaming status
     def initialize(options = {})
-      @name        = options[:name]
-      @location    = options[:location]
-      @start_date  = check_date_input(options[:start_date])
-      @end_date    = check_date_input(options[:end_date])
-      @description = options[:description]
+      @name           = options[:name]
+      @location       = options[:location]
+      self.start_date = options[:start_date]
+      self.end_date   = options[:end_date]
+      @description    = options[:description]
       # optional
-      @wiki_path   = options[:wiki_path]
-      @short_name  = options[:short_name]
-      @streaming   = options[:streaming]
+      @wiki_path      = options[:wiki_path]
+      @short_name     = options[:short_name]
+      self.streaming  = options[:streaming]
     end
 
     # Setter for start_date.
@@ -69,6 +69,24 @@ class Eventkalender
       @end_date = check_date_input(date)
     end
 
+    # Setter for streaming.
+    #
+    # @example Setting events end date.
+    #   event.streaming = "yes" #=> true
+    #
+    # @param status [String] streaming of an event to set
+    # @return [Boolean] converted and set streaming status
+    def streaming=(status)
+      case status
+      when /[Jj]a|[Yy]es/
+        @streaming = true
+      when /[Nn]ein|[Nn]o/
+        @streaming = false
+      else
+        @streaming = nil
+      end
+    end
+
     # Convert event to ical.
     #
     # @example Convert event to ical object.
@@ -83,6 +101,27 @@ class Eventkalender
         e.end         = @end_date + 1 # TODO: DateTime would maybe a better choice
         e.description = @description
       }
+    end
+
+    # Check whether an event is already done or not.
+    #
+    # @return [Boolean] true or false
+    def past?
+      end_date < Date.today
+    end
+
+    # Check whether an event is upcoming or not.
+    #
+    # @return [Boolean] true or false
+    def upcoming?
+      end_date >= Date.today
+    end
+
+    # Check whether an event is now or not.
+    #
+    # @return [Boolean] true or false
+    def now?
+      start_date <= Date.today && end_date >= Date.today
     end
 
     protected

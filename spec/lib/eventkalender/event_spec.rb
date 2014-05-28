@@ -126,4 +126,58 @@ END:VEVENT
 EOS
     end
   end
+
+  describe '.now?' do
+    it 'should return true if an event is now' do
+      @event.now?.should be_false
+
+      @event.start_date = Date.today
+      @event.end_date = Date.today + 1
+      @event.now?.should be_true
+    end
+  end
+
+  describe '.upcoming?' do
+    it 'should return true if an event is upcoming' do
+      @event.upcoming?.should be_false
+
+      @event.start_date = Date.today + 23
+      @event.end_date = Date.today + 42
+      @event.upcoming?.should be_true
+    end
+  end
+
+  describe '.past?' do
+    it 'should return true when an event lies in the past' do
+      @event.past?.should be_true
+
+      @event.start_date = Date.today + 23
+      @event.end_date = Date.today + 42
+      @event.past?.should be_false
+
+      @event.start_date = Date.today
+      @event.end_date = Date.today
+      @event.past?.should be_false
+    end
+  end
+
+  describe '.streaming=' do
+    it 'should set false, true or nil' do
+      # yes, we have streaming on this event
+      @event.streaming= 'ja'
+      @event.streaming.should be_true
+      @event.streaming= 'Ja'
+      @event.streaming.should be_true
+      # no streaming
+      @event.streaming= 'nein'
+      @event.streaming.should be_false
+      # streaming status is unclear
+      @event.streaming= 'vielleicht'
+      @event.streaming.should be_nil
+      @event.streaming= ''
+      @event.streaming.should be_nil
+      @event.streaming= nil
+      @event.streaming.should be_nil
+    end
+  end
 end

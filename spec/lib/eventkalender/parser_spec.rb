@@ -201,15 +201,4 @@ describe Eventkalender::Parser do
     end
   end
 
-  describe '#detect_streaming' do
-    it 'should return false, true or nil' do
-      @parser.detect_streaming('ja').should be_true
-      @parser.detect_streaming('Ja').should be_true
-      @parser.detect_streaming('nein').should be_false
-      @parser.detect_streaming('vielleicht').should be_nil
-      @parser.detect_streaming('').should be_nil
-      @parser.detect_streaming(nil).should be_nil
-    end
-  end
-
 end

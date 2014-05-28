@@ -75,7 +75,7 @@ class Eventkalender
         e.start_date  = self.class.date(raw_event[2].text) # Start date
         e.end_date    = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
         e.description = raw_event[5].text       # URL
-        e.streaming   = detect_streaming(raw_event[7].text) # Is streaming planed?
+        e.streaming   = raw_event[7].text       # Is streaming planed?
 
         url_path = raw_event[0].xpath('./a[@href]')[0]['href']
         e.short_name  = /^.*\/(.*)$/.match(url_path)[1]
@@ -219,46 +219,25 @@ class Eventkalender
     #
     # @return [Array] with filtered events
     def filter(filter, events = self.events)
-      filter_general   = filter[:general]
-      filter_streaming = filter[:streaming]
-
-      filtered_events = []
-
-      case filter_general
+      filtered_events = case filter[:general]
       # All past events
       when /past/
-        events.each do |event|
-          if event.end_date <= Date.today
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.past? }
       # All upcoming events
       when /upcoming/
-        events.each do |event|
-          if event.end_date >= Date.today
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.upcoming? }
       # Currently running events
       when /now|today/
-        events.each do |event|
-          if event.start_date <= Date.today && event.end_date >= Date.today
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.now? }
       # Match a year
       when /\d{4}/
-        events.each do |event|
-          if event.start_date.year == filter_general.to_i
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.start_date.year == filter[:general].to_i }
       # Return all events if no filter is set
       else
-        filtered_events = events
+        events
       end
 
-      filter_streaming(filter_streaming, filtered_events)
+      filter_streaming(filter[:streaming], filtered_events)
     end
 
     # Filter for events with streaming status.
@@ -271,32 +250,16 @@ class Eventkalender
     #
     # @return [Array] events witch match the given filter
     def filter_streaming(filter, events = self.events)
-      filtered_events = []
-
       case filter
       when /true|yes/
-        events.each do |event|
-          if event.streaming == true
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.streaming }
       when /false|no/
-        events.each do |event|
-          if event.streaming == false
-            filtered_events << event
-          end
-        end
+        events.find_all { |event| event.streaming == false }
       when /undefined|nil|null/
-        events.each do |event|
-          if event.streaming.nil? || event.streaming == ''
-            filtered_events << event
-          end
-        end
+        events.find_all { |e| e.streaming == nil }
       else
-        filtered_events = events
+        events
       end
-
-      filtered_events
     end
 
     # Detect if there is live streaming planed.
@@ -307,14 +270,7 @@ class Eventkalender
     # @param string [String] to check
     # @return [Boolean, nil] streaming status true or false or not defined
     def detect_streaming(string)
-      case string
-      when /[Jj]a|[Yy]es/
-        true
-      when /[Nn]ein|[Nn]o/
-        false
-      else
-        nil
-      end
+
     end
 
   end
