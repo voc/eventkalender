@@ -26,7 +26,8 @@
           center: 'title',
           right: 'month,basicWeek,basicDay'
         },
-        defaultDate:" #{Date.today}",
+        defaultDate: "#{Date.today}",
+        firstDay: 1,
         editable: false,
         events: [
           #{@events.join('\n')}

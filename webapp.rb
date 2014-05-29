@@ -13,7 +13,7 @@ get '/' do
 {
   title: "#{event.name}",
   start: "#{event.start_date}",
-  end: "#{event.end_date}",
+  end: "#{event.end_date + 1}",
   url: "#{event.description}"
 },
 EOF
