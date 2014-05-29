@@ -99,7 +99,7 @@ describe Eventkalender::Parser do
       txt = @parser.to_txt
 
       txt.class.should == String
-      txt.should =~ /FrOSCon 8/
+      txt.should =~ /FOSSGIS 2014 - Berlin\n19.03.2014 - 21.03.2014\n\n/
     end
   end
 

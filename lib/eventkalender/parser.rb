@@ -111,14 +111,12 @@ class Eventkalender
 
       events.each do |event|
         # Add event to string
-        txt << "#{event.name} - #{event.location}"
-        txt << "#{event.start_date.strftime('%d.%m.%Y')} - #{event.end_date.strftime('%d.%m.%Y')}"
+        txt << "#{event.name} - #{event.location}\n"\
+               "#{event.start_date.strftime('%d.%m.%Y')} - #{event.end_date.strftime('%d.%m.%Y')}"
 
         # Adding two empty lines when current event is not the last one
         unless events.last.name == event.name
-          2.times do
-            txt << ''
-          end
+          txt << "\n\n"
         end
       end
 
