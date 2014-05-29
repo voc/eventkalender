@@ -1,10 +1,48 @@
-%h2 feeds
-%ul
-  - %w{html ical atom json txt}.each do |format|
-    %li
-      %a{ href: url("/events.#{format}") }= format
+#feeds
+  %ul
+    - %w{html ical atom json txt}.each do |format|
+      %li
+        %a{ href: url("/events.#{format}") }= format
 
-%sub
-  * apply filter e.g.
-  %code
-    \/events.txt?filter={past|upcoming|today|2013}&streaming={true|false|undefined}
+#calendar
+
+#comments
+  %sub
+    * apply filter e.g.
+    %code
+      \/events.txt?filter={past|upcoming|today|2013}&streaming={true|false|undefined}
+
+
+%script{ src: url('/js/moment.min.js') }
+%script{ src: url('/js/jquery.min.js') }
+%script{ src: url('/js/jquery-ui.custom.min.js') }
+%script{ src: url('/js/fullcalendar.min.js') }
+
+:javascript
+  $(document).ready(function() {
+    $('#calendar').fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,basicWeek,basicDay'
+        },
+        defaultDate:" #{Date.today}",
+        editable: false,
+        events: [
+          #{@events.join('\n')}
+        ]
+    });
+
+  });
+
+:css
+  #calendar {
+    width: 600px;
+    margin: 40px auto;
+    display: table-cell;
+  }
+
+  #feeds {
+    display: table-cell;
+    width: 100px;
+  }

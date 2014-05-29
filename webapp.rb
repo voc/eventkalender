@@ -4,9 +4,21 @@ require_relative 'lib/eventkalender'
 
 set :views,  File.dirname(__FILE__) + '/views'
 set :parser, Eventkalender::Parser.new
+set :public_folder, File.dirname(__FILE__) + '/views/public'
 
 # HTML pages
 get '/' do
+  @events = settings.parser.filter(filter_params).map do |event|
+    <<-EOF
+{
+  title: "#{event.name}",
+  start: "#{event.start_date}",
+  end: "#{event.end_date}",
+  url: "#{event.description}"
+},
+EOF
+  end
+
   haml :index
 end
 
