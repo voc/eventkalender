@@ -20,17 +20,15 @@ describe Eventkalender::Parser do
     end
 
     it 'should be possible to force scraping' do
-      # force scraping
-      @parser.events(force_scraping = true)
-      current_time = Time.now
-
-      @parser.timestamp.to_s.should == current_time.to_s
+      # do not force
+      @parser.events
+      last_parser_run = @parser.timestamp
 
       sleep 2
 
-      # do not force
-      @parser.events
-      @parser.timestamp.to_s.should_not == Time.now.to_s
+      # force scraping
+      @parser.events(force_scraping = true)
+      @parser.timestamp.to_s.should_not == last_parser_run.to_s
     end
   end
 
