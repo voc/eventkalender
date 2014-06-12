@@ -91,7 +91,7 @@ class Eventkalender
       # Create new ical calendar
       calendar = Icalendar::Calendar.new
       # Setting time zone
-      calendar.timezone { timezone_id = 'Europe/Berlin' }
+      calendar.timezone { |t| t.tzid = 'Europe/Berlin' }
       # Add every object in array to new created calendar
       events.each { |event| calendar.add(event.to_ical) }
 
