@@ -108,8 +108,8 @@ describe Eventkalender::Event do
 
       array.first.should =~ /BEGIN:VEVENT/
       array.last.should =~ /END:VEVENT/
-      array.include?("DTSTART:19990424\r").should be_true
-      array.include?("DTEND:20000425\r").should be_true
+      array.include?("DTSTART:19990424T000000\r").should be_true
+      array.include?("DTEND:20000425T000000\r").should be_true
       array.include?("SUMMARY:my todes event\r").should be_true
       array.include?("LOCATION:todes location\r").should be_true
 
