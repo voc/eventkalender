@@ -8,7 +8,7 @@ require_relative 'eventkalender/fixnum'
 class Eventkalender
 
   # eventkalender version number
-  VERSION = '0.0.6'
+  VERSION = '0.0.7'
   # application name
   NAME    = 'eventkalender'
 
