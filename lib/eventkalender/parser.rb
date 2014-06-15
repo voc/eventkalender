@@ -134,17 +134,22 @@ class Eventkalender
       RSS::Maker.make('atom') do |maker|
         maker.channel.author  = 'eventkalender'
         maker.channel.updated = Time.now.to_s
-        maker.channel.about   = 'http://c3voc.de'
+        maker.channel.about   = 'http://c3voc.de/'
+        maker.channel.link    = 'http://c3voc.de/eventkalender/events.atom'
+        maker.channel.links.first.rel  = 'self'
+        maker.channel.links.first.type = 'application/atom+xml'
+
         maker.channel.title   = 'VOC Events'
 
         events.each { |event|
           maker.items.new_item do |item|
             item.updated     = Time.now.to_s
             item.title       = event.name
-            item.id          = "#{event.name.gsub(' ', '')}#{event.start_date}#{event.end_date}"
+            item.id          = "tag:c3voc.de,#{event.start_date.strftime('%Y-%m-%d')}:#{events.index(event) + 1}"
             item.description = "#{event.name} in #{event.location} "\
                                "vom #{event.start_date.strftime('%d.%m.%Y')} "\
                                "bis #{event.end_date.strftime('%d.%m.%Y')}."
+            item.link        = 'http://c3voc.de/eventkalender'
           end
         }
       end

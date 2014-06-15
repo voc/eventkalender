@@ -83,7 +83,7 @@ describe Eventkalender::Parser do
     it 'should return valid atom feed' do
       feed = @parser.to_atom
 
-      feed.to_s.should =~ /FrOSCon82014-08-232014-08-24/
+      feed.to_s.should =~ /<id>tag:c3voc.de,2014-08-23:6<\/id>/
     end
 
     it 'should return atom feed object' do
