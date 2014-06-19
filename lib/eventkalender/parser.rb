@@ -70,12 +70,13 @@ class Eventkalender
       # Create new ical object and return it
       Eventkalender::Event.new.tap { |e|
         # Add more information to ical object.
-        e.name        = raw_event[0].text       # Event name
-        e.location    = raw_event[1].text       # Event location
-        e.start_date  = self.class.date(raw_event[2].text) # Start date
-        e.end_date    = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
-        e.description = raw_event[5].text       # URL
-        e.streaming   = raw_event[7].text       # Is streaming planed?
+        e.name           = raw_event[0].text       # Event name
+        e.location       = raw_event[1].text       # Event location
+        e.start_date     = self.class.date(raw_event[2].text) # Start date
+        e.end_date       = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
+        e.description    = raw_event[5].text       # URL
+        e.streaming      = raw_event[7].text       # Is streaming planed?
+        e.planing_status = raw_event[8].text       # Event planing status
 
         url_path = raw_event[0].xpath('./a[@href]')[0]['href']
         e.short_name  = /^.*\/(.*)$/.match(url_path)[1]
@@ -167,14 +168,16 @@ class Eventkalender
 
       events.each do |event|
         hash[:voc_events][event.name] = {}
-        hash[:voc_events][event.name][:name]          = event.name
-        hash[:voc_events][event.name][:short_name]    = event.short_name
-        hash[:voc_events][event.name][:location]      = event.location
-        hash[:voc_events][event.name][:start_date]    = event.start_date
-        hash[:voc_events][event.name][:end_date]      = event.end_date
-        hash[:voc_events][event.name][:description]   = event.description
-        hash[:voc_events][event.name][:voc_wiki_path] = event.wiki_path
-        hash[:voc_events][event.name][:streaming]     = event.streaming
+        hash[:voc_events][event.name][:name]           = event.name
+        hash[:voc_events][event.name][:short_name]     = event.short_name
+        hash[:voc_events][event.name][:location]       = event.location
+        hash[:voc_events][event.name][:start_date]     = event.start_date
+        hash[:voc_events][event.name][:end_date]       = event.end_date
+        hash[:voc_events][event.name][:description]    = event.description
+        hash[:voc_events][event.name][:voc_wiki_path]  = event.wiki_path
+        hash[:voc_events][event.name][:streaming]      = event.streaming
+        hash[:voc_events][event.name][:planing_status] = event.planing_status
+
       end
 
       # Adding statistical data
@@ -268,12 +271,19 @@ class Eventkalender
     # Detect if there is live streaming planed.
     #
     # @example
-    #   parser.detect_streaming('yes') #=> true
+    #   Eventkalender.parser.detect_streaming('yes') #=> true
     #
     # @param string [String] to check
     # @return [Boolean, nil] streaming status true or false or not defined
-    def detect_streaming(string)
-
+    def self.detect_streaming(string)
+      case string
+        when /[Jj]a|[Yy]es/
+          true
+        when /[Nn]ein|[Nn]o/
+          false
+        else
+          nil
+      end
     end
 
   end

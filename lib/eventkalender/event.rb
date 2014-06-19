@@ -19,10 +19,12 @@ class Eventkalender
   #   @return [String] event path in voc wiki
   # @!attribute [rw] streaming
   #   @return [String] event streaming status
+  # @!attribute [rw] planing_status
+  #   @return [String] event planing status
   class Event
 
     attr_reader :start_date, :end_date, :streaming
-    attr_accessor :name, :location, :description, :short_name, :wiki_path
+    attr_accessor :name, :location, :description, :short_name, :wiki_path, :planing_status
 
     # Create new event object
     #
@@ -35,6 +37,7 @@ class Eventkalender
     # @option options [String] :wiki_path The event path in c3voc wiki
     # @option options [String] :short_name The event short name
     # @option options [String] :streaming Planed event streaming status
+    # @option options [String] :planing_status Planed event status
     def initialize(options = {})
       @name           = options[:name]
       @location       = options[:location]
@@ -45,6 +48,7 @@ class Eventkalender
       @wiki_path      = options[:wiki_path]
       @short_name     = options[:short_name]
       self.streaming  = options[:streaming]
+      @planing_status = options[:planing_status]
     end
 
     # Setter for start_date.
@@ -77,14 +81,7 @@ class Eventkalender
     # @param status [String] streaming of an event to set
     # @return [Boolean] converted and set streaming status
     def streaming=(status)
-      case status
-      when /[Jj]a|[Yy]es/
-        @streaming = true
-      when /[Nn]ein|[Nn]o/
-        @streaming = false
-      else
-        @streaming = nil
-      end
+      @streaming = Eventkalender::Parser.detect_streaming(status)
     end
 
     # Convert event to ical.
@@ -97,8 +94,8 @@ class Eventkalender
       Icalendar::Event.new.tap { |e|
         e.summary     = @name
         e.location    = @location
-        e.start      = @start_date.to_datetime
-        e.end        = (@end_date + 1).to_datetime # TODO: DateTime would maybe a better choice
+        e.start       = @start_date.to_datetime
+        e.end         = (@end_date + 1).to_datetime # TODO: DateTime would maybe a better choice
         e.description = @description
       }
     end
@@ -122,6 +119,13 @@ class Eventkalender
     # @return [Boolean] true or false
     def now?
       start_date <= Date.today && end_date >= Date.today
+    end
+
+    # Return current planing status of the event.
+    #
+    # @return [Boolean] status
+    def idea?
+      @planing_status =~ /[Ii]dea/ ? true : false
     end
 
     protected

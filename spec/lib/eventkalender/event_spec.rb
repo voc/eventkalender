@@ -9,7 +9,8 @@ describe Eventkalender::Event do
                                       end_date:    '24.04.2000',
                                       description: 'http://example.com',
                                       short_name:  'h5n1',
-                                      wiki_path:    '/wiki/h5n1')
+                                      wiki_path:    '/wiki/h5n1',
+                                      planing_status: '')
   end
 
   after(:each) do
@@ -178,6 +179,15 @@ EOS
       @event.streaming.should be_nil
       @event.streaming= nil
       @event.streaming.should be_nil
+    end
+  end
+
+  describe '.idea?' do
+    it 'should return true when supporting the event is only an idea' do
+      @event.idea?.should be_false
+
+      @event.planing_status = 'idea'
+      @event.idea?.should be_true
     end
   end
 end

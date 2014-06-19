@@ -64,7 +64,7 @@ describe Eventkalender::Scraper do
     it 'should match right table' do
       table = @scraper.get_table
 
-      table.search('./tbody/tr').count.should == 10
+      table.search('./tbody/tr').count.should == 11
       table.search('./tbody/tr[3]/td')[2].text.should == '2014-04-18'
     end
   end

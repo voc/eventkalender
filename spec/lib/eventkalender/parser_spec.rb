@@ -112,8 +112,8 @@ describe Eventkalender::Parser do
     it 'should have some statistical data' do
       data = JSON.parse(@parser.to_json)
 
-      data['voc_events_count']['all'].should be 8
-      data['voc_events_count']['with_streaming'].should be 7
+      data['voc_events_count']['all'].should be 9
+      data['voc_events_count']['with_streaming'].should be 8
       data['voc_events_count']['without_streaming'].should be 0
       data['voc_events_count']['undefined_streaming'].should be 1
     end
@@ -131,11 +131,11 @@ describe Eventkalender::Parser do
 
       # case upcoming
       events = @parser.filter( { general: 'upcoming' } )
-      events.count.should be 7
+      events.count.should be 8
 
       # case year
       events = @parser.filter( { general: '2014' } )
-      events.count.should be 8
+      events.count.should be 9
 
       # case year
       events = @parser.filter( { general:'2013' } )
@@ -143,7 +143,7 @@ describe Eventkalender::Parser do
 
       # default case
       events = @parser.filter( { general: 'random_input' })
-      events.count.should be 8
+      events.count.should be 9
 
       # case today
       date_today = Date.parse('Mai 23 1942')
@@ -178,8 +178,8 @@ describe Eventkalender::Parser do
 
       # case upcoming, streaming on
       events = @parser.filter( { general: 'upcoming', streaming: 'true' } )
-      events.count.should be 6
-      events.last.name.should =~ /31C3/
+      events.count.should be 7
+      events.last.name.should =~ /ICMP/
     end
   end
 
@@ -192,7 +192,7 @@ describe Eventkalender::Parser do
       events.count.should be 0
 
       events = @parser.filter_streaming('true')
-      events.count.should be 7
+      events.count.should be 8
 
       events = @parser.filter_streaming('undefined')
       events.count.should be 1
