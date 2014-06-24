@@ -199,4 +199,13 @@ describe Eventkalender::Parser do
     end
   end
 
+  describe '#remove_idea_events' do
+    it 'should remove events with planing status idea' do
+      events = @parser.events
+      events.count.should be 9
+
+      @parser.remove_idea_events(events).count.should be 8
+    end
+  end
+
 end

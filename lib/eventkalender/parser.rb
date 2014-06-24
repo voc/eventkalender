@@ -268,6 +268,16 @@ class Eventkalender
       end
     end
 
+    # Remove events with status idea
+    #
+    # @param events [Array<Event>, #events] to filter
+    # @return [Array] events with status idea
+    def remove_idea_events(events = self.events)
+      events.map do |event|
+        event.planing_status =~ /[Ii]dea/ ? nil : event
+      end.compact
+    end
+
     # Detect if there is live streaming planed.
     #
     # @example

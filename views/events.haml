@@ -11,6 +11,7 @@
       %th End
       %th Location
       %th Website
+      %th Status
   %tbody
     - settings.parser.filter({ general: params[:filter], streaming: params[:streaming] }).each do |event|
       %tr
@@ -23,5 +24,6 @@
             %a{ href: URI.parse(event.description) }= event.description
           - rescue URI::InvalidURIError
             = event.description
+        %td= event.planing_status
 
 %a{ href: url('/') } ← back
