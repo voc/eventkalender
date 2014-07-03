@@ -98,12 +98,6 @@ describe Eventkalender::Event do
 
   describe '#to_ical' do
     it 'should convert an event to a valid ical event' do
-      ical = Icalendar::Event.new
-      ical.summary     = 'my todes event'
-      ical.location    = 'todes location'
-      ical.dtstart     = Date.parse('24.04.1999')
-      ical.dtend       = Date.parse('24.04.2000')
-
       ical_object = @event.to_ical
       array = ical_object.to_ical.split(/\n/)
 
@@ -113,18 +107,6 @@ describe Eventkalender::Event do
       array.include?("DTEND;VALUE=DATE:20000425\r").should be_true
       array.include?("SUMMARY:my todes event\r").should be_true
       array.include?("LOCATION:todes location\r").should be_true
-
-      example_ical = <<EOS
-BEGIN:VEVENT
-DTEND:20000425
-DTSTAMP:20140327T191030Z
-DTSTART:19990424
-LOCATION:todes location
-SEQUENCE:0
-SUMMARY:my todes event
-UID:2014-03-27T20:10:30+01:00_669871828@jihahihihi
-END:VEVENT
-EOS
     end
   end
 
