@@ -94,8 +94,8 @@ class Eventkalender
       Icalendar::Event.new.tap { |e|
         e.summary     = @name
         e.location    = @location
-        e.start       = @start_date.to_datetime
-        e.end         = (@end_date + 1).to_datetime # TODO: DateTime would maybe a better choice
+        e.dtstart     = Icalendar::Values::Date.new(@start_date.to_date)
+        e.dtend       = Icalendar::Values::Date.new(@end_date.to_date + 1)
         e.description = @description
       }
     end

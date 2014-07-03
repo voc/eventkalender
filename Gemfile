@@ -4,8 +4,9 @@ gem 'rake', '~> 10.1.1'
 # webframework
 gem 'sinatra', '~> 1.4.5'
 gem 'haml', '~> 4.0.5'
+gem 'sass', '~> 3.3.4'
 # ical lib
-gem 'icalendar', '~> 1.5.0'
+gem 'icalendar', '~> 2.1.0'
 # parsing
 gem 'mechanize', '~> 2.7.3'
 
@@ -19,4 +20,3 @@ group :development do
   gem 'tux', '~> 0.3.0'
   gem 'inch', '~> 0.4.5'
 end
-

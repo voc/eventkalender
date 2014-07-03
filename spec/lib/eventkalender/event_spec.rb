@@ -101,16 +101,16 @@ describe Eventkalender::Event do
       ical = Icalendar::Event.new
       ical.summary     = 'my todes event'
       ical.location    = 'todes location'
-      ical.start       = Date.parse('24.04.1999')
-      ical.end         = Date.parse('24.04.2000')
+      ical.dtstart     = Date.parse('24.04.1999')
+      ical.dtend       = Date.parse('24.04.2000')
 
       ical_object = @event.to_ical
       array = ical_object.to_ical.split(/\n/)
 
       array.first.should =~ /BEGIN:VEVENT/
       array.last.should =~ /END:VEVENT/
-      array.include?("DTSTART:19990424T000000\r").should be_true
-      array.include?("DTEND:20000425T000000\r").should be_true
+      array.include?("DTSTART;VALUE=DATE:19990424\r").should be_true
+      array.include?("DTEND;VALUE=DATE:20000425\r").should be_true
       array.include?("SUMMARY:my todes event\r").should be_true
       array.include?("LOCATION:todes location\r").should be_true
 

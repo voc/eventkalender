@@ -6,7 +6,6 @@ require 'json'
 # gem
 require 'icalendar'
 
-
 class Eventkalender
   # Parser class can be used to parse dokuwiki table and return events in multiple formats.
   #
@@ -94,7 +93,7 @@ class Eventkalender
       # Setting time zone
       calendar.timezone { |t| t.tzid = 'Europe/Berlin' }
       # Add every object in array to new created calendar
-      events.each { |event| calendar.add(event.to_ical) }
+      events.each { |event| calendar.add_event(event.to_ical) }
 
       calendar
     end
@@ -274,7 +273,7 @@ class Eventkalender
     # @return [Array] events with status idea
     def remove_idea_events(events = self.events)
       events.map do |event|
-        event.planing_status =~ /[Ii]dea/ ? nil : event
+        event.idea? ? nil : event
       end.compact
     end
 

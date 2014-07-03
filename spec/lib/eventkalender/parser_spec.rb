@@ -154,7 +154,7 @@ describe Eventkalender::Parser do
       events.last.start_date, events.first.start_date = date_today, date_today
       events.last.end_date, events.first.end_date     = date_today, date_today + 1
 
-      @parser.filter( { general: 'today' }, events).count.should be 2
+      @parser.filter( { general: 'today' }, events).count.should be 3
     end
 
     it 'should return events array' do
