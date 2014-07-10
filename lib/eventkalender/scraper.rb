@@ -68,7 +68,8 @@ class Eventkalender
     def get_page(page = @url)
       # Create agent
       agent = Mechanize.new
-      agent.user_agent = 'eventkalender (https://github.com/voc/eventkalender)'
+      agent.user_agent = "eventkalender/#{Eventkalender::VERSION} "\
+                         "(https://github.com/voc/eventkalender)"
 
       # Get web page
       @page = agent.get(page)
