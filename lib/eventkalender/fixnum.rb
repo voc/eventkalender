@@ -3,6 +3,7 @@
 #
 # @example
 #   1.day.ago #=> 2014-05-08 23:02:46 +0200
+# @example
 #   23.hours.ago #=> 2014-05-08 12:12:49 +0200
 class Fixnum
 
