@@ -1,0 +1,48 @@
+body {
+    color: #fff;
+    background-color: #000;
+}
+
+body h1 {
+    color: #28C3AB;
+}
+
+body a {
+    text-decoration: none;
+    color: #28c3ab;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+body a:hover, a:focus {
+    text-decoration: none;
+    color: #176e61;
+}
+
+body .fc-today {
+    background-color: #28c3ab;
+    color: #000;
+}
+
+body .fc-event-inner {
+    background-color: #28c3ab;
+    color: #28c3ab;
+}
+
+body .fc-event-title {
+    background-color: #000;
+}
+
+body h2 {
+    color: #000;
+    background-color: #28c3ab;
+}
+
+body ul {
+    list-style: none;
+}
+
+body ul li:before {
+    content: "→";
+}
