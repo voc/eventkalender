@@ -56,5 +56,5 @@ end
 
 # helper function
 def filter_params
-  { general: params[:filter], streaming: params[:streaming] }
+  { general: params[:filter], streaming: params[:streaming], idea: params[:idea] }
 end

@@ -242,6 +242,14 @@ class Eventkalender
         events
       end
 
+      # filter for idea events
+      # default: remove idea events
+      if filter[:idea] == 'true'
+        filtered_events
+      else
+        filtered_events = remove_idea_events(filtered_events)
+      end
+
       filter_streaming(filter[:streaming], filtered_events)
     end
 
@@ -272,9 +280,7 @@ class Eventkalender
     # @param events [Array<Event>, #events] to filter
     # @return [Array] events with status idea
     def remove_idea_events(events = self.events)
-      events.map do |event|
-        event.idea? ? nil : event
-      end.compact
+      events.delete_if { |event| event.idea? }
     end
 
     # Detect if there is live streaming planed.

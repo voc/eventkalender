@@ -131,11 +131,11 @@ describe Eventkalender::Parser do
 
       # case upcoming
       events = @parser.filter( { general: 'upcoming' } )
-      events.count.should be 8
+      events.count.should be 7
 
       # case year
       events = @parser.filter( { general: '2014' } )
-      events.count.should be 9
+      events.count.should be 8
 
       # case year
       events = @parser.filter( { general:'2013' } )
@@ -143,7 +143,7 @@ describe Eventkalender::Parser do
 
       # default case
       events = @parser.filter( { general: 'random_input' })
-      events.count.should be 9
+      events.count.should be 8
 
       # case today
       date_today = Date.parse('Mai 23 1942')
@@ -154,7 +154,7 @@ describe Eventkalender::Parser do
       events.last.start_date, events.first.start_date = date_today, date_today
       events.last.end_date, events.first.end_date     = date_today, date_today + 1
 
-      @parser.filter( { general: 'today' }, events).count.should be 3
+      @parser.filter( { general: 'today' }, events).count.should be 2
     end
 
     it 'should return events array' do
@@ -178,6 +178,11 @@ describe Eventkalender::Parser do
 
       # case upcoming, streaming on
       events = @parser.filter( { general: 'upcoming', streaming: 'true' } )
+      events.count.should be 6
+      events.last.name.should =~ /31C3/
+
+      # case upcoming, streaming on, idea event
+      events = @parser.filter( { general: 'upcoming', streaming: 'true', idea: 'true' } )
       events.count.should be 7
       events.last.name.should =~ /ICMP/
     end
