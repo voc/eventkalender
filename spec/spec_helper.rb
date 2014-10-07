@@ -11,25 +11,29 @@ require 'rack/test'
 require 'sinatra'
 require 'haml'
 
-%w{parser scraper event fixnum}.each do |file|
+%w{parser scraper fixnum}.each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', "#{file}.rb")
+end
+
+%w{event mumble conference}.each do |file|
+  require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event', "#{file}.rb")
 end
 
 require File.join(File.dirname(__FILE__), '..', 'webapp.rb')
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
 
-  config.color_enabled = true
+  config.color = true
   config.order = 'random'
 
   # Create fake webserver to send serve all request local
   config.before(:each) do
-    project_root     = File.expand_path('..', __FILE__)
-    events_html_file = "#{project_root}/fixtures/events.htm"
+    project_root             = File.expand_path('..', __FILE__)
+    events_html_file         = "#{project_root}/fixtures/events.htm"
+    mumble_treffen_html_file = "#{project_root}/fixtures/events.htm"
 
     stub_request(:get, 'http://c3voc.de/wiki/events').to_return( body: File.read(events_html_file),
                                                                  code: 200,

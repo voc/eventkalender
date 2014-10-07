@@ -5,49 +5,49 @@ describe 'Fixnum' do
     it 'should have seconds per day,
                     seconds per hour and
                     seconds per minutes defined' do
-      Fixnum::SECONDS_IN_DAY.should     == 86_400
-      Fixnum::SECONDS_IN_HOUR.should    == 3_600
-      Fixnum::SECONDS_IN_MINUTES.should == 60
+      expect(Fixnum::SECONDS_IN_DAY).to eq 86_400
+      expect(Fixnum::SECONDS_IN_HOUR).to eq 3_600
+      expect(Fixnum::SECONDS_IN_MINUTES).to eq 60
     end
   end
 
   describe '.ago' do
     it 'should return a pased time stamp' do
-      2.days.ago.to_s.should == (Time.now - 172_800).to_s
+      expect(2.days.ago.to_s).to match (Time.now - 172_800).to_s
     end
 
     it 'should return Time object' do
-      23.days.ago.class.should == Time
+      expect(23.days.ago).to be_instance_of Time
     end
   end
 
   describe '.minutes' do
     it 'should return minutes in seconds' do
-      2.minutes.should == 120
+      expect(2.minutes).to eq 120
     end
 
     it 'should return Fixnum object' do
-      23.days.class.should == Fixnum
+      expect(23.days).to be_instance_of Fixnum
     end
   end
 
   describe '.hours' do
     it 'should return hours in seconds' do
-      2.hours.should == 7_200
+      expect(2.hours).to eq 7_200
     end
 
     it 'should return Fixnum object' do
-      23.days.class.should == Fixnum
+      expect(23.days).to be_instance_of Fixnum
     end
   end
 
   describe '.days' do
     it 'should return days in seconds' do
-      2.days.should == 172_800
+      expect(2.days).to eq 172_800
     end
 
     it 'should return Fixnum object' do
-      23.days.class.should == Fixnum
+      expect(23.days).to be_instance_of Fixnum
     end
   end
 end

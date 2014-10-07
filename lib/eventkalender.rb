@@ -1,4 +1,7 @@
-require_relative 'eventkalender/event'
+require_relative 'eventkalender/event/event'
+require_relative 'eventkalender/event/mumble'
+require_relative 'eventkalender/event/conference'
+
 require_relative 'eventkalender/parser'
 require_relative 'eventkalender/scraper'
 require_relative 'eventkalender/fixnum'

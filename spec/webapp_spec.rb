@@ -5,14 +5,14 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/events.ical'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should return valid ical feed' do
       get '/events.ical'
 
-      last_response.body.should =~ /END:VCALENDAR/
-      last_response.body.should =~ /SUMMARY:FrOSCon/
+      expect(last_response.body).to match /END:VCALENDAR/
+      expect(last_response.body).to match /SUMMARY:FrOSCon/
     end
   end
 
@@ -20,13 +20,13 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/events.atom'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should return valid atom feed' do
       get '/events.atom'
 
-      RSS::Parser.parse(last_response.body).should be_true
+      expect(RSS::Parser.parse(last_response.body)).to be_instance_of(RSS::Atom::Feed)
     end
   end
 
@@ -34,14 +34,14 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/events.txt'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should return text data' do
       get '/events.txt'
 
-      last_response.body.should =~ /31C3 - Hamburg/
-      last_response.status.should be 200
+      expect(last_response.body).to match /31C3 - Hamburg/
+      expect(last_response.status).to eq 200
     end
   end
 
@@ -49,13 +49,13 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/events.json'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should return valid json on GET' do
       get '/events.json'
 
-      JSON.parse(last_response.body).should be_true
+      expect(JSON.parse(last_response.body)).to be_instance_of(Hash)
     end
   end
 
@@ -63,27 +63,27 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/events.html'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should render events html page on GET' do
       get '/events.html'
 
-      last_response.body.should =~ /past and upcoming/
+      expect(last_response.body).to match(/past and upcoming/)
     end
 
     it 'should render events html page with defined filter on GET' do
       get '/events.html?filter=past'
 
-      last_response.body.should =~ /Berlin/
-      last_response.body.should_not =~ /Augustin/
+      expect(last_response.body).to match(/Berlin/)
+      expect(last_response.body).not_to match(/Hamburg/)
     end
 
     it 'should render event description as html link' do
       get '/events.html'
 
-      last_response.body.should =~ /keine webseite/
-      last_response.body.should_not =~ />keine webseite<\/a>/
+      expect(last_response.body).to match(/keine webseite/)
+      expect(last_response.body).not_to match(/>keine webseite<\/a>/)
     end
   end
 
@@ -91,13 +91,13 @@ describe 'Webpage eventkalender' do
     it 'should return valid response on GET' do
       get '/'
 
-      last_response.should be_ok
+      expect(last_response).to be_ok
     end
 
     it 'should render index template on GET' do
       get '/'
 
-      last_response.body.should =~ /c3voc events/
+      expect(last_response.body).to match(/c3voc events/)
     end
   end
 end

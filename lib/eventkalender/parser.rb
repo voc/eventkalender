@@ -11,7 +11,7 @@ class Eventkalender
   #
   # @example Create parser to parse voc wiki events page.
   #   parser = Eventkalender::Parser.new
-  #   parser.events #=>  [#<Eventkalender::Event:0x00000002a49f78 … ]
+  #   parser.events #=>  [#<Eventkalender::Conference:0x00000002a49f78 … ]
   #
   # @example Convert date String into Date object.
   #   Eventkalender::Parser.date('23-12-2014') #=> #<Date: 2014-12-23 ((2457015j,0s,0n),+0s,2299161j)>
@@ -27,7 +27,7 @@ class Eventkalender
     # Parsed content from dokuwiki page and returned Hash with events.
     #
     # @example Scrape events
-    #   parser.events(true) #=> [#<Eventkalender::Event:0x0000000332e300 @name=…, …]
+    #   parser.events(true) #=> [#<Eventkalender::Conference:0x0000000332e300 @name=…, …]
     #
     # @param force_scraping [Boolean] to force scraping
     # @return [Array] scraped events
@@ -67,7 +67,7 @@ class Eventkalender
       # Search all cols in event row.
       raw_event = table_row.search('./td')
       # Create new ical object and return it
-      Eventkalender::Event.new.tap { |e|
+      Eventkalender::Conference.new.tap { |e|
         # Add more information to ical object.
         e.name           = raw_event[0].text       # Event name
         e.location       = raw_event[1].text       # Event location
@@ -176,7 +176,6 @@ class Eventkalender
         hash[:voc_events][event.name][:voc_wiki_path]  = event.wiki_path
         hash[:voc_events][event.name][:streaming]      = event.streaming
         hash[:voc_events][event.name][:planing_status] = event.planing_status
-
       end
 
       # Adding statistical data
@@ -215,7 +214,7 @@ class Eventkalender
     #   Looping and checking multiple times should be removed, soon.
     #
     # @example Filter for past events
-    #   parser.filter({ general: past, streaming: true }) #=> [#<Eventkalender::Event:0x00000002ab5b88 … >, …]
+    #   parser.filter({ general: past, streaming: true }) #=> [#<Eventkalender::Conference:0x00000002ab5b88 … >, …]
     #
     # @param filter [Hash] used for filtering
     # @option filter [String] :general Normal filter option
@@ -256,7 +255,7 @@ class Eventkalender
     # Filter for events with streaming status.
     #
     # @example Filter  for events with streaming
-    #   parser.filter_streaming('true') #=>  [#<Eventkalender::Event:0x000000036b6810 … @streaming=true>, …]
+    #   parser.filter_streaming('true') #=>  [#<Eventkalender::Conference:0x000000036b6810 … @streaming=true>, …]
     #
     # @param filter [String] witch is used for filtering
     # @param events [Array<Event>, #events] to filter
