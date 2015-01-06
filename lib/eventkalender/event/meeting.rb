@@ -21,7 +21,11 @@ class Eventkalender
   #   @return [String] event streaming status
   # @!attribute [rw] planing_status
   #   @return [String] event planing status
-  class Mumble < Event
+  class Meeting < Event
+
+    attr_reader   :start_date, :end_date
+    attr_accessor :tags, :type, :link, :location, :description, :name
+
     # Create new event object
     #
     # @param options [Hash] to create an event with.
@@ -32,11 +36,14 @@ class Eventkalender
     # @option options [String] :description The event description
     # @option options [String] :pad_url The mumble pad url
     # @option options [String] :planing_status Planed event status
+    # @option options [Boolean] :mumble Planed event status
     def initialize(options = {})
       super(options)
       # optional
-      @pad_url        = options[:wiki_path]
-      @planing_status = options[:planing_status]
+      @type        = options[:type]
+      @link        = options[:pad_url]
+      @tags        = convert_tags(options[:tags])
+      @description = @type, @link, @tags
     end
 
     # Convert event to ical.
@@ -53,6 +60,22 @@ class Eventkalender
         e.dtend       = Icalendar::Values::Date.new(@end_date.to_date + 1)
         e.description = @description
       }
+    end
+
+    def description=(type, link, tags)
+      "Type: #{@type}"\
+      "Link: #{@link}"\
+      "Tags: #{@tags.join(', ')}"
+    end
+
+    # @return [Array] tags
+    def convert_tags(string)
+      if string.nil?
+        []
+      else
+        tags = string.split(',')
+        tags.map(&:strip)
+      end
     end
 
   end

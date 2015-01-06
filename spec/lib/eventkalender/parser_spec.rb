@@ -34,7 +34,7 @@ describe Eventkalender::Parser do
 
   describe '#to_event' do
     it 'should genetrate Eventkalender::Event object' do
-      table = @scraper.get_table
+      table = @scraper.get_tables
       rows = table.search('./*/tr')
 
       event = @parser.to_event(rows[2])

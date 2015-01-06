@@ -47,13 +47,13 @@ describe Eventkalender::Scraper do
     end
   end
 
-  describe '#get_table' do
+  describe '#get_tables' do
     it 'should return Nokogiri::XML::Element object' do
-      expect(@scraper.get_table).to be_instance_of Nokogiri::XML::Element
+      expect(@scraper.get_tables).to be_instance_of Nokogiri::XML::Element
     end
 
     it 'should be possible to change xpath pattern for this function' do
-      table = @scraper.get_table('//*[@id="events"]')
+      table = @scraper.get_tables('//*[@id="events"]')
 
       expect(table.text).to eq 'Events'
       expect(@scraper.xpath).to match /div/
@@ -62,7 +62,7 @@ describe Eventkalender::Scraper do
 
   describe '@XPATH' do
     it 'should match right table' do
-      table = @scraper.get_table
+      table = @scraper.get_tables
 
       expect(table.search('./tbody/tr').count).to eq 11
       expect(table.search('./tbody/tr[3]/td')[2].text).to eq '2014-04-18'

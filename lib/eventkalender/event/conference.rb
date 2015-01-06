@@ -41,6 +41,7 @@ class Eventkalender
     def initialize(options = {})
       super(options)
       # optional
+      @description    = options[:description]
       @wiki_path      = options[:wiki_path]
       @short_name     = options[:short_name]
       self.streaming  = options[:streaming]

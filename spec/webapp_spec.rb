@@ -76,7 +76,8 @@ describe 'Webpage eventkalender' do
       get '/events.html?filter=past'
 
       expect(last_response.body).to match(/Berlin/)
-      expect(last_response.body).not_to match(/Hamburg/)
+      expect(last_response.body).to match(/Hamburg/)
+      expect(last_response.body).not_to match(/Ziegeleipark/)
     end
 
     it 'should render event description as html link' do

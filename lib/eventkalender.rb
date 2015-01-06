@@ -1,5 +1,5 @@
 require_relative 'eventkalender/event/event'
-require_relative 'eventkalender/event/mumble'
+require_relative 'eventkalender/event/meeting'
 require_relative 'eventkalender/event/conference'
 
 require_relative 'eventkalender/parser'
@@ -11,7 +11,7 @@ require_relative 'eventkalender/fixnum'
 class Eventkalender
 
   # eventkalender version number
-  VERSION = '0.0.10'
+  VERSION = '0.1.0'
   # application name
   NAME    = 'eventkalender'
 

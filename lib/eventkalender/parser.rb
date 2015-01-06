@@ -33,30 +33,36 @@ class Eventkalender
     # @return [Array] scraped events
     def events(force_scraping = false)
       # Get events table from web page scraper or from instance variable
-      if @events_table.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
-        @events_table = Eventkalender::Scraper.scrape!
-        @timestamp    = Time.now
+      if @events_tables.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
+        @events_tables = Eventkalender::Scraper.scrape!
+        @timestamp     = Time.now
       end
 
-      # Events inside table are separated in rows.
-      event_rows = @events_table.search('./tr')
+      found_events = []
 
-      # HACK: Ugly workaround for unknown xpath matching problems.
-      #       If clause is only needed for rspec and webmock.
-      if event_rows.count == 0
-        event_rows = @events_table.search('./*/tr')
+      @events_tables[0].each do |table|
+        # Events inside table are separated in rows.
+        event_rows = table.search('./tr')
+
+        # HACK: Ugly workaround for unknown xpath matching problems.
+        #       If clause is only needed for rspec and webmock.
+        if event_rows.count == 0
+          event_rows = table.search('./*/tr')
+        end
+
+        # Iterate over all rows and create ical events for every event.
+        events = event_rows.map do |row|
+          # Skip headlines
+          next if row.search('./td').empty?
+
+          found_events << to_event(row)
+        end
+
+        # Remove nil objects
+        events.compact
       end
 
-      # Iterate over all rows and create ical events for every event.
-      events = event_rows.map do |row|
-        # Skip headlines
-        next if row.search('./td').empty?
-
-        to_event(row)
-      end
-
-      # Remove nil objects
-      events.compact
+      found_events
     end
 
     # Converts string into event object.
@@ -236,6 +242,11 @@ class Eventkalender
       # Match a year
       when /\d{4}/
         events.find_all { |event| event.start_date.year == filter[:general].to_i }
+      # Return all events if no filter is set
+      when /meeting/
+        events.find_all { |event| event.class == Eventkalender::Meeting }
+      when /conference/
+          events.find_all { |event| event.class == Eventkalender::Conference }
       # Return all events if no filter is set
       else
         events

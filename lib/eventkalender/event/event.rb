@@ -24,7 +24,7 @@ class Eventkalender
   class Event
 
     attr_reader   :start_date, :end_date
-    attr_accessor :name, :location, :description
+    attr_accessor :name, :location
 
     # Create new event object
     #
@@ -43,7 +43,6 @@ class Eventkalender
       @location       = options[:location]
       self.start_date = options[:start_date]
       self.end_date   = options[:end_date]
-      @description    = options[:description]
     end
 
     # Setter for start_date.

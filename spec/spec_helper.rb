@@ -15,7 +15,7 @@ require 'haml'
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', "#{file}.rb")
 end
 
-%w{event mumble conference}.each do |file|
+%w{event meeting conference}.each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event', "#{file}.rb")
 end
 
@@ -32,13 +32,17 @@ RSpec.configure do |config|
   # Create fake webserver to send serve all request local
   config.before(:each) do
     project_root             = File.expand_path('..', __FILE__)
-    events_html_file         = "#{project_root}/fixtures/events.htm"
-    mumble_treffen_html_file = "#{project_root}/fixtures/events.htm"
+    fixtures = {
+      'http://c3voc.de/wiki/events'   => 'events.htm',
+      'http://c3voc.de/wiki/meetings' => 'meetings.htm'
+    }
 
-    stub_request(:get, 'http://c3voc.de/wiki/events').to_return( body: File.read(events_html_file),
-                                                                 code: 200,
-                                                                 headers: { 'Content-Type' =>
-                                                                            'text/html; charset=utf-8'} )
+    fixtures.each do |url, file|
+      stub_request(:get, url).to_return(body: File.read("#{project_root}/fixtures/#{file}"),
+                                                        code: 200,
+                                                        headers: { 'Content-Type' =>
+                                                                  'text/html; charset=utf-8'} )
+    end
   end
 end
 

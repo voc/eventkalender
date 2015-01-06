@@ -21,12 +21,19 @@ class Eventkalender
   class Scraper
 
     # web page to scrape
-    URL   = 'http://c3voc.de/wiki/events'
-    # xpath to find events table
-    XPATH = "//*/div[@class='level2']/descendant::table[1]"
+    PAGES_TO_SCRAPE = {
+      events: {
+        url: 'http://c3voc.de/wiki/events',
+        xpath: "//*/div[@class='level2']/div[@class='table dataaggregation']/descendant::table[1]"
+      },
+      meetings: {
+        url: 'http://c3voc.de/wiki/meetings',
+        xpath: "//*/div[@class='level1']/descendant::table[1]"
+      }
+    }
 
     attr_accessor :url, :xpath
-    attr_reader   :page, :table
+    attr_reader   :pages, :tables
 
     # Class initializer for scraper class.
     #
@@ -35,9 +42,9 @@ class Eventkalender
     #
     # @param url [String, URL] to parse
     # @param xpath [String, XPATH] to find event table
-    def initialize(url = URL, xpath = XPATH)
-      @url   = url
-      @xpath = xpath
+    def initialize
+      @pages  = []
+      @tables = []
     end
 
     # Instance method to run scraper.
@@ -47,7 +54,7 @@ class Eventkalender
     #
     # @return [Nokogiri::XML::Element] scrapped event table
     def scrape
-      get_table
+      get_tables
     end
 
     # Class method to scrape events page without initialize own scraper instance.
@@ -65,23 +72,44 @@ class Eventkalender
     #
     # @param page [String] URL to scrape
     # @return [Mechanize::Page] events page
-    def get_page(page = @url)
+    def get_pages(urls = pages_to_scrape_urls)
       # Create agent
       agent = Mechanize.new
       agent.user_agent = "eventkalender/#{Eventkalender::VERSION} "\
                          "(https://github.com/voc/eventkalender)"
 
       # Get web page
-      @page = agent.get(page)
+      urls.each do |url|
+        @pages << agent.get(url)
+      end
+
+      @pages
     end
 
     # Search xpath expression in events page and returned xml events table.
     #
-    # @param xpath [String] xpath pattern
+    # @param xpath [Array] xpath pattern
     # @return [Nokogiri::XML::Element] Events table
-    def get_table(xpath = @xpath)
-      @table = get_page.search(xpath).first
+    def get_tables(pages = get_pages, pages_to_scrape = PAGES_TO_SCRAPE)
+      pages.each do |page|
+        xpath = select_xpath(page.uri.to_s)
+        @tables << page.search(xpath)
+      end
+
+      @tables
     end
 
+    protected
+
+    # TODO: write tests and docu
+    def pages_to_scrape_urls(pages_hash = PAGES_TO_SCRAPE)
+      pages_hash.keys.map{|key| pages_hash[key][:url]}
+    end
+
+    # TODO: write tests and docu
+    def select_xpath(url, data = PAGES_TO_SCRAPE)
+      hash = data.select{|k,h| h[:url] == url}
+      hash.flatten.last[:xpath]
+    end
   end
 end
