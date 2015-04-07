@@ -78,7 +78,7 @@ class Eventkalender
     #
     # @return [Boolean] true or false
     def upcoming?
-      end_date >= Date.today
+      start_date >= Date.today
     end
 
     # Check whether an event is now or not.
