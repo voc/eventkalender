@@ -20,13 +20,13 @@ body a:hover, a:focus {
     color: #176e61;
 }
 
+
 body .fc-today {
     background-color: #28c3ab;
     color: #000;
 }
 
 body .fc-event-inner {
-    background-color: #28c3ab;
     color: #28c3ab;
 }
 
