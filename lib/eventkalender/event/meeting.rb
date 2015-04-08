@@ -43,7 +43,7 @@ class Eventkalender
       @type        = options[:type]
       @link        = options[:pad_url]
       @tags        = convert_tags(options[:tags])
-      @description = @type, @link, @tags
+      @link        = options[:link]
     end
 
     # Convert event to ical.
@@ -56,18 +56,19 @@ class Eventkalender
       Icalendar::Event.new.tap { |e|
         e.summary     = @name
         e.location    = @location
-        e.dtstart     = Icalendar::Values::Date.new(@start_date.to_date)
-        e.dtend       = Icalendar::Values::Date.new(@end_date.to_date + 1)
-        e.description = @description
+        e.dtstart     = @start_date
+        e.dtend       = @end_date
+        e.description = @link
       }
     end
 
-    def description=(type, link, tags)
-      "Type: #{@type}"\
-      "Link: #{@link}"\
-      "Tags: #{@tags.join(', ')}"
+    def description
+      "#{@link}"
     end
 
+    # Convert given string to an array with tags.
+    #
+    # @param string [String]
     # @return [Array] tags
     def convert_tags(string)
       if string.nil?
@@ -78,5 +79,19 @@ class Eventkalender
       end
     end
 
+    # Is that meeting a mumble meeting?
+    #
+    # @return [Boolean]
+    def mumble?
+      @type =~ /[Mm]umble/ ? true : false
+    end
+
+    # Setter for tags.
+    #
+    # @param string [String] with tags comma seperated
+    # @return [Array] with tags
+    def tags=(string)
+      @tags = convert_tags(string)
+    end
   end
 end

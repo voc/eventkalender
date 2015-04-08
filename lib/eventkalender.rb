@@ -2,7 +2,10 @@ require_relative 'eventkalender/event/event'
 require_relative 'eventkalender/event/meeting'
 require_relative 'eventkalender/event/conference'
 
-require_relative 'eventkalender/parser'
+require_relative 'eventkalender/parser/parser'
+require_relative 'eventkalender/parser/conferences'
+require_relative 'eventkalender/parser/meetings'
+
 require_relative 'eventkalender/scraper'
 require_relative 'eventkalender/fixnum'
 
