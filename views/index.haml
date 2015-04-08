@@ -1,9 +1,15 @@
 #feeds
+  %h4 conferences
   %ul
     - %w{html ical atom json txt}.each do |format|
       %li
         %a{ href: url("/events.#{format}") }= format
 
+  %h4 meetings
+  %ul
+    - %w{html ical atom json txt}.each do |format|
+      %li
+        %a{ href: url("/events.#{format}?meetings=✓") }= format
 #calendar
 
 #comments
@@ -33,7 +39,6 @@
           #{@events.join('\n')}
         ]
     });
-
   });
 
 :css

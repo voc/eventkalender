@@ -13,7 +13,7 @@
       %th Website
       %th Status
   %tbody
-    - settings.parser.filter({ general: params[:filter], streaming: params[:streaming] }).each do |event|
+    - @events.each do |event|
       %tr
         %td= event.name
         %td= event.start_date
@@ -24,6 +24,9 @@
             %a{ href: URI.parse(event.description) }= event.description
           - rescue URI::InvalidURIError
             = event.description
-        %td= event.planing_status
+        - if event.class == Eventkalender::Meeting
+          %td
+        - else
+          %td= event.planing_status
 
 %a{ href: url('/') } ← back
