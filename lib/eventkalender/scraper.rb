@@ -21,18 +21,15 @@ class Eventkalender
   class Scraper
 
     # web page to scrape
-    PAGES_TO_SCRAPE = {
-      events: {
-        url: 'http://c3voc.de/wiki/events',
-        xpath: "//*/div[@class='level2']/div[@class='table dataaggregation']/descendant::table[1]"
-      },
-      meetings: {
-        url: 'http://c3voc.de/wiki/meetings',
-        xpath: "//*/div[@class='level1']/descendant::table[1]"
-      }
-    }
+    PAGES_TO_SCRAPE = [
+      { type: :conferences,
+        url: 'http://c3voc.de/wiki/eventz',
+        xpath: "//*/div[@class='table dataaggregation']/descendant::table[1]" },
+      { type: :meetings,
+        url: 'http://c3voc.de/wiki/meetingz',
+        xpath: "//*/descendant::table[1]" }
+    ]
 
-    attr_accessor :url, :xpath
     attr_reader   :pages, :tables
 
     # Class initializer for scraper class.
@@ -43,8 +40,7 @@ class Eventkalender
     # @param url [String, URL] to parse
     # @param xpath [String, XPATH] to find event table
     def initialize
-      @pages  = []
-      @tables = []
+      @pages
     end
 
     # Instance method to run scraper.
@@ -72,15 +68,16 @@ class Eventkalender
     #
     # @param page [String] URL to scrape
     # @return [Mechanize::Page] events page
-    def get_pages(urls = pages_to_scrape_urls)
+    def get_pages(urls = PAGES_TO_SCRAPE)
       # Create agent
       agent = Mechanize.new
       agent.user_agent = "eventkalender/#{Eventkalender::VERSION} "\
                          "(https://github.com/voc/eventkalender)"
-
+      # create copy of PAGES_TO_SCRAPE
+      @pages = urls.clone
       # Get web page
-      urls.each do |url|
-        @pages << agent.get(url)
+      urls.each do |page|
+        page[:page] = agent.get(page[:url])
       end
 
       @pages
@@ -90,26 +87,13 @@ class Eventkalender
     #
     # @param xpath [Array] xpath pattern
     # @return [Nokogiri::XML::Element] Events table
-    def get_tables(pages = get_pages, pages_to_scrape = PAGES_TO_SCRAPE)
+    def get_tables(pages = get_pages)
       pages.each do |page|
-        xpath = select_xpath(page.uri.to_s)
-        @tables << page.search(xpath)
+        page[:table]     = page[:page].search(page[:xpath])
+        page[:timestamp] = Time.now
       end
 
-      @tables
-    end
-
-    protected
-
-    # TODO: write tests and docu
-    def pages_to_scrape_urls(pages_hash = PAGES_TO_SCRAPE)
-      pages_hash.keys.map{|key| pages_hash[key][:url]}
-    end
-
-    # TODO: write tests and docu
-    def select_xpath(url, data = PAGES_TO_SCRAPE)
-      hash = data.select{|k,h| h[:url] == url}
-      hash.flatten.last[:xpath]
+      @pages
     end
   end
 end
