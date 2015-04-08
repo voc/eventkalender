@@ -11,12 +11,16 @@ require 'rack/test'
 require 'sinatra'
 require 'haml'
 
-%w{parser scraper fixnum}.each do |file|
+%w{scraper fixnum}.each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', "#{file}.rb")
 end
 
 %w{event meeting conference}.each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event', "#{file}.rb")
+end
+
+%w{parser meetings conferences}.each do |file|
+  require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'parser', "#{file}.rb")
 end
 
 require File.join(File.dirname(__FILE__), '..', 'webapp.rb')
@@ -33,8 +37,8 @@ RSpec.configure do |config|
   config.before(:each) do
     project_root             = File.expand_path('..', __FILE__)
     fixtures = {
-      'http://c3voc.de/wiki/events'   => 'events.htm',
-      'http://c3voc.de/wiki/meetings' => 'meetings.htm'
+      'http://c3voc.de/wiki/eventz'   => 'events.htm',
+      'http://c3voc.de/wiki/meetingz' => 'meetings.htm'
     }
 
     fixtures.each do |url, file|
