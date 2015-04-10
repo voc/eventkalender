@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'Webpage eventkalender' do
+  # conferences
   describe '/events.ical' do
     it 'should return valid response on GET' do
       get '/events.ical'
@@ -88,15 +89,108 @@ describe 'Webpage eventkalender' do
     end
   end
 
-  describe '/' do
+  # meetings
+  describe '/?meetings=yes' do
     it 'should return valid response on GET' do
-      get '/'
+      get '/?meetings=yes'
 
       expect(last_response).to be_ok
     end
 
     it 'should render index template on GET' do
-      get '/'
+      get '/?meetings=yes'
+
+      expect(last_response.body).to match(/c3voc events/)
+    end
+  end
+
+  describe '/events.ical?meetings=yes' do
+    it 'should return valid response on GET' do
+      get '/events.ical'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should return valid ical feed' do
+      get '/events.ical?meetings=yes'
+
+      expect(last_response.body).to match /END:VCALENDAR/
+      expect(last_response.body).to match /SUMMARY:Mumble/
+    end
+  end
+
+  describe '/events.atom?meetings=yes' do
+    it 'should return valid response on GET' do
+      get '/events.atom?meetings=yes'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should return valid atom feed' do
+      get '/events.atom?meetings=yes'
+
+      expect(RSS::Parser.parse(last_response.body)).to be_instance_of(RSS::Atom::Feed)
+    end
+  end
+
+  describe '/events.txt?meetings=yes'  do
+    it 'should return valid response on GET' do
+      get '/events.txt'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should return text data' do
+      get '/events.txt?meetings=yes'
+
+      expect(last_response.body).to match /Mumble - 2015-01-05/
+      expect(last_response.status).to eq 200
+    end
+  end
+
+  describe '/events.json?meetings=yes' do
+    it 'should return valid response on GET' do
+      get '/events.json?meetings=yes'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should return valid json on GET' do
+      get '/events.json?meetings=yes'
+
+      expect(JSON.parse(last_response.body)).to be_instance_of(Hash)
+    end
+  end
+
+  describe '/events.html?meetings=yes' do
+    it 'should return valid response on GET' do
+      get '/events.html?meetings=yes'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should render events html page on GET' do
+      get '/events.html?meetings=yes'
+
+      expect(last_response.body).to match(/past and upcoming/)
+    end
+
+    it 'should render events html page with defined filter on GET' do
+      get '/events.html?filter=past&meetings=yes'
+
+      expect(last_response.body).to match(/Mumble -/)
+    end
+  end
+
+  describe '/?meetings=yes' do
+    it 'should return valid response on GET' do
+      get '/?meetings=yes'
+
+      expect(last_response).to be_ok
+    end
+
+    it 'should render index template on GET' do
+      get '/?meetings=yes'
 
       expect(last_response.body).to match(/c3voc events/)
     end
