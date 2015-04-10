@@ -40,7 +40,7 @@ class Eventkalender
     # @param url [String, URL] to parse
     # @param xpath [String, XPATH] to find event table
     def initialize
-      @pages
+      @pages # TODO: should be removed?
     end
 
     # Instance method to run scraper.
@@ -93,7 +93,7 @@ class Eventkalender
         page[:timestamp] = Time.now
       end
 
-      @pages
+      pages
     end
   end
 end
