@@ -30,7 +30,7 @@ class Eventkalender
         xpath: "//*/descendant::table[1]" }
     ]
 
-    attr_reader   :pages, :tables
+    attr_reader :pages, :tables
 
     # Class initializer for scraper class.
     #
