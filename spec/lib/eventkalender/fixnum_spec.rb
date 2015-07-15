@@ -13,7 +13,7 @@ describe 'Fixnum' do
 
   describe '.ago' do
     it 'should return a pased time stamp' do
-      expect(2.days.ago.to_s).to match (Time.now - 172_800).to_s
+      expect(2.days.ago.to_s).to eq (Time.now - 172_800).to_s
     end
 
     it 'should return Time object' do
