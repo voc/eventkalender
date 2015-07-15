@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Eventkalender
   class Parser::Meetings < Eventkalender::Parser
 
@@ -45,6 +47,8 @@ class Eventkalender
     def to_event(table_row)
       # Search all cols in event row.
       raw_event = table_row.search('./td')
+      # return nil if no dates are set
+      return nil if raw_event[3].text.empty? || raw_event[4].text.empty?
       # Create new ical object and return it
       Eventkalender::Meeting.new.tap { |e|
         # Add more information to ical object.

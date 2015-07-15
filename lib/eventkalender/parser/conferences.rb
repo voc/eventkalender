@@ -42,6 +42,8 @@ class Eventkalender
     def to_event(table_row)
       # Search all cols in event row.
       raw_event = table_row.search('./td')
+      # Return nil if dates are not set
+      return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
       # Create new ical object and return it
       Eventkalender::Conference.new.tap { |e|
         # Add more information to ical object.

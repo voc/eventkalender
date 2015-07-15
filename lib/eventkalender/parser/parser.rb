@@ -42,12 +42,16 @@ class Eventkalender
         # Skip headlines
         next if row.search('./td').empty?
 
-        found_events << to_event(row)
+      	event = to_event(row)
+      	if event.nil?
+          next
+      	else
+          found_events << event
+        end
       end
 
       # Remove nil objects
       events.compact
-
 
       found_events
     end
