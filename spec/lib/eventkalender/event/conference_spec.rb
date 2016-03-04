@@ -85,9 +85,10 @@ describe Eventkalender::Conference do
     end
 
     it 'should raise invalid date exception for invalid date input' do
-      expect {
-        @event.send(:check_date_input, '202305')
-      }.to raise_error(ArgumentError)
+      date = @event.send(:check_date_input, '202305')
+      date2 = @event.send(:check_date_input, '?')
+      expect(date).to be nil
+      expect(date2).to be nil
     end
 
     it 'should return nil if input type is not a String or Date object' do
