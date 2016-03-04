@@ -113,7 +113,11 @@ class Eventkalender
       when Date
         date
       when String
-        Date.parse(date)
+        begin
+          Date.parse(date)
+        rescue
+          nil
+        end
       else
         nil
       end

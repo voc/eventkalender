@@ -49,14 +49,20 @@ class Eventkalender
       raw_event = table_row.search('./td')
       # return nil if no dates are set
       return nil if raw_event[3].text.empty? || raw_event[4].text.empty?
+      begin
+        start_date = DateTime.parse("#{self.class.date(raw_event[3].text)} #{raw_event[5].text}") # Start date time
+        end_date = DateTime.parse("#{self.class.date(raw_event[4].text)} #{raw_event[6].text}") # End date time
+      rescue
+        return nil
+      end
       # Create new ical object and return it
       Eventkalender::Meeting.new.tap { |e|
         # Add more information to ical object.
         e.name           = raw_event[0].text       # Event name
         e.type           = raw_event[1].text       # URL
         e.location       = raw_event[2].text       # Event location
-        e.start_date     = DateTime.parse("#{self.class.date(raw_event[3].text)} #{raw_event[5].text}") # Start date time
-        e.end_date       = DateTime.parse("#{self.class.date(raw_event[4].text)} #{raw_event[6].text}") # End date time
+        e.start_date     = start_date
+        e.end_date       = start_date
         e.link           = raw_event[7].text       # URL
         e.tags           = raw_event[8].text       # Tags
       }

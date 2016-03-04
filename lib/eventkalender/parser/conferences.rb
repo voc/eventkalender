@@ -44,13 +44,16 @@ class Eventkalender
       raw_event = table_row.search('./td')
       # Return nil if dates are not set
       return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
+      start_date = self.class.date(raw_event[2].text) # Start date
+      end_date = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complet
+      return nil if start_date.nil? || end_date.nil?
       # Create new ical object and return it
       Eventkalender::Conference.new.tap { |e|
         # Add more information to ical object.
         e.name           = raw_event[0].text       # Event name
         e.location       = raw_event[1].text       # Event location
-        e.start_date     = self.class.date(raw_event[2].text) # Start date
-        e.end_date       = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complete
+        e.start_date     = start_date
+        e.end_date       = end_date
         e.description    = raw_event[5].text       # URL
         e.streaming      = raw_event[7].text       # Is streaming planed?
         e.planing_status = raw_event[8].text       # Event planing status
