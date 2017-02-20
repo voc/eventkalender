@@ -62,7 +62,7 @@ class Eventkalender
         e.type           = raw_event[1].text       # URL
         e.location       = raw_event[2].text       # Event location
         e.start_date     = start_date
-        e.end_date       = start_date
+        e.end_date       = end_date
         e.link           = raw_event[7].text       # URL
         e.tags           = raw_event[8].text       # Tags
       }
