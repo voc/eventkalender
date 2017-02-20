@@ -24,7 +24,7 @@ class Eventkalender
     PAGES_TO_SCRAPE = [
       { type: :conferences,
         url: 'http://c3voc.de/wiki/eventz',
-        xpath: "//*/div[@class='table dataaggregation']/descendant::table[1]" },
+        xpath: "//*/descendant::table[1]" },
       { type: :meetings,
         url: 'http://c3voc.de/wiki/meetingz',
         xpath: "//*/descendant::table[1]" }
