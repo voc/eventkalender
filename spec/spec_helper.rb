@@ -42,10 +42,7 @@ RSpec.configure do |config|
     }
 
     fixtures.each do |url, file|
-      stub_request(:get, url).to_return(body: File.read("#{project_root}/fixtures/#{file}"),
-                                                        code: 200,
-                                                        headers: { 'Content-Type' =>
-                                                                  'text/html; charset=utf-8'} )
+      stub_request(:get, url).to_return(:body => File.read("#{project_root}/fixtures/#{file}"), :status => 200, :headers => { 'Content-Type' => 'text/html; charset=utf-8'})
     end
   end
 end

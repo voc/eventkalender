@@ -84,7 +84,7 @@ describe 'Webpage eventkalender' do
     it 'should render event description as html link' do
       get '/events.html'
 
-      expect(last_response.body).to match(/keine webseite/)
+      expect(last_response.body).to match(/http:\/\/hacknplay.org/)
       expect(last_response.body).not_to match(/>keine webseite<\/a>/)
     end
   end
@@ -143,7 +143,7 @@ describe 'Webpage eventkalender' do
     it 'should return text data' do
       get '/events.txt?meetings=yes'
 
-      expect(last_response.body).to match /Mumble - 2015-01-05/
+      expect(last_response.body).to match /Geekend 2014 - CCCB/
       expect(last_response.status).to eq 200
     end
   end
@@ -178,7 +178,7 @@ describe 'Webpage eventkalender' do
     it 'should render events html page with defined filter on GET' do
       get '/events.html?filter=past&meetings=yes'
 
-      expect(last_response.body).to match(/Mumble -/)
+      expect(last_response.body).to match(/Geekend 2014/)
     end
   end
 
