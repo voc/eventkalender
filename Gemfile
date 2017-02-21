@@ -22,4 +22,5 @@ group :development do
   gem 'tins', '= 1.6.0'           # 1.9.3 force
   gem 'mime-types', '= 2.99.3'    # 1.9.3 force
   gem 'term-ansicolor', '= 1.3.2' # 1.9.3 force
+  gem 'nokogiri', '= 1.6.8.1'     # 1.9.3 force
 end
