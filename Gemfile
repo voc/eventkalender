@@ -13,11 +13,12 @@ gem 'mechanize', '~> 2.7.5'
 group :development do
   gem 'rspec', '~> 3.5.0'
   gem 'webmock', '~> 2.3.2'
-  gem 'addressable', '= 2.4.0'
-  gem 'tins', '= 1.6.0'
   gem 'simplecov', '~> 0.12.0'
   gem 'rack', '~> 1.6.5'
   gem 'rack-test', '~> 0.6.3'
   gem 'tux', '~> 0.3.0'
   gem 'inch', '~> 0.7.1'
+  gem 'addressable', '= 2.4.0' # 1.9.3 force
+  gem 'tins', '= 1.6.0'        # 1.9.3 force
+  gem 'mime-types', '= 2.99.3' # 1.9.3 force
 end
