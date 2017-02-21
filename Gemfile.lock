@@ -1,8 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.5.0)
-      public_suffix (~> 2.0, >= 2.0.2)
+    addressable (2.4.0)
     bond (0.5.1)
     coderay (1.1.1)
     crack (0.4.3)
@@ -46,7 +45,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    public_suffix (2.0.5)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -110,6 +108,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable (= 2.4.0)
   haml (~> 4.0.7)
   icalendar (~> 2.4.1)
   inch (~> 0.7.1)
