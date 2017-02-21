@@ -45,7 +45,7 @@ class Eventkalender
       # Return nil if dates are not set
       return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
       start_date = self.class.date(raw_event[2].text) # Start date
-      end_date = self.class.date(raw_event[3].text) # End date + 1 day to have last day also complet
+      end_date = self.class.date(raw_event[3].text) # End date
       return nil if start_date.nil? || end_date.nil?
       # Create new ical object and return it
       Eventkalender::Conference.new.tap { |e|

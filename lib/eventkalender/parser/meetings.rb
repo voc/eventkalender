@@ -50,8 +50,8 @@ class Eventkalender
       # return nil if no dates are set
       return nil if raw_event[3].text.empty? || raw_event[4].text.empty?
       begin
-        start_date = DateTime.parse("#{self.class.date(raw_event[3].text)} #{raw_event[5].text}") # Start date time
-        end_date = DateTime.parse("#{self.class.date(raw_event[4].text)} #{raw_event[6].text}") # End date time
+        start_date = DateTime.parse("#{self.class.date(raw_event[3].text)} #{raw_event[5].text}")                    # Start date time
+        end_date   = DateTime.parse("#{self.class.date(raw_event[4].text)} #{end_time_defined?(raw_event[6].text)}") # End date time
       rescue
         return nil
       end
@@ -127,6 +127,19 @@ class Eventkalender
 
     def description
       "#{@link}"
+    end
+
+
+    # Events with no end time defined should be created as all day event.
+    #
+    # @param parsed event end time
+    # @return [String] end_time
+    def end_time_defined?(time)
+      if time.empty?
+        "24:00"
+      else
+        time
+      end
     end
   end
 end
