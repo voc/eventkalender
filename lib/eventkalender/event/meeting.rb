@@ -34,16 +34,15 @@ class Eventkalender
     # @option options [String] :start_date Events start date
     # @option options [String] :end_date Events end date
     # @option options [String] :description The event description
-    # @option options [String] :pad_url The mumble pad url
+    # @option options [String] :link The mumble url
     # @option options [String] :planing_status Planed event status
     # @option options [Boolean] :mumble Planed event status
     def initialize(options = {})
       super(options)
       # optional
       @type        = options[:type]
-      @link        = options[:pad_url]
-      @tags        = convert_tags(options[:tags])
       @link        = options[:link]
+      @tags        = convert_tags(options[:tags])
     end
 
     # Convert event to ical.
