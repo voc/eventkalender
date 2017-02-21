@@ -88,7 +88,7 @@ GEM
     term-ansicolor (1.4.0)
       tins (~> 1.0)
     tilt (2.0.6)
-    tins (1.13.2)
+    tins (1.6.0)
     tux (0.3.0)
       ripl (>= 0.3.5)
       ripl-multi_line (>= 0.2.4)
@@ -120,6 +120,7 @@ DEPENDENCIES
   sass (~> 3.4.21)
   simplecov (~> 0.12.0)
   sinatra (~> 1.4.8)
+  tins (= 1.6.0)
   tux (~> 0.3.0)
   webmock (~> 2.3.2)
 
