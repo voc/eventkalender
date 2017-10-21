@@ -10,6 +10,8 @@ describe Eventkalender::Conference do
                                            description:    'http://example.com',
                                            short_name:     'h5n1',
                                            wiki_path:      '/wiki/h5n1',
+                                           buildup:        '23.04.1999',
+                                           deconstruction: '25.04.2000',
                                            planing_status: '')
   end
 
@@ -26,6 +28,9 @@ describe Eventkalender::Conference do
       expect(@event.description).to eq 'http://example.com'
       expect(@event.short_name).to  eq 'h5n1'
       expect(@event.wiki_path).to   eq '/wiki/h5n1'
+      expect(@event.buildup).to     eq '23.04.1999'
+      expect(@event.deconstruction).to eq '25.04.2000'
+
     end
   end
 
@@ -38,6 +43,8 @@ describe Eventkalender::Conference do
       expect(@event.description).to eq 'http://example.com'
       expect(@event.short_name).to  eq 'h5n1'
       expect(@event.wiki_path).to   eq '/wiki/h5n1'
+      expect(@event.buildup).to     eq '23.04.1999'
+      expect(@event.deconstruction).to eq '25.04.2000'
     end
 
   end

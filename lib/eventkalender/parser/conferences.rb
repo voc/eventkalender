@@ -46,6 +46,8 @@ class Eventkalender
       return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
       start_date = self.class.date(raw_event[2].text) # Start date
       end_date = self.class.date(raw_event[3].text) # End date
+      buildup = self.class.date(raw_event[9].text)
+      deconstruction = self.class.date(raw_event[10].text)
       return nil if start_date.nil? || end_date.nil?
       # Create new ical object and return it
       Eventkalender::Conference.new.tap { |e|
@@ -57,6 +59,10 @@ class Eventkalender
         e.description    = raw_event[5].text       # URL
         e.streaming      = raw_event[7].text       # Is streaming planed?
         e.planing_status = raw_event[8].text       # Event planing status
+        e.buildup        = buildup
+        e.deconstruction = deconstruction
+        e.cases          = raw_event[11].text
+
 
         url_path = raw_event[0].xpath('./a[@href]')[0]['href']
         e.short_name  = /^.*\/(.*)$/.match(url_path)[1]
@@ -117,6 +123,9 @@ class Eventkalender
         hash[:voc_events][event.name][:voc_wiki_path]  = event.wiki_path
         hash[:voc_events][event.name][:streaming]      = event.streaming
         hash[:voc_events][event.name][:planing_status] = event.planing_status
+        hash[:voc_events][event.name][:cases]          = event.cases
+        hash[:voc_events][event.name][:buildup]        = event.buildup
+        hash[:voc_events][event.name][:deconstruction] = event.deconstruction
       end
 
       # Adding statistical data

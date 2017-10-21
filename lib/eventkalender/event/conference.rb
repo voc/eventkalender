@@ -23,8 +23,9 @@ class Eventkalender
   #   @return [String] event planing status
   class Conference < Event
 
-    attr_reader   :start_date, :end_date, :streaming
-    attr_accessor :wiki_path, :planing_status, :name, :location, :description, :short_name
+    attr_reader   :start_date, :end_date, :streaming, :buildup, :deconstruction
+    attr_accessor :wiki_path, :planing_status, :name, :location, :description,
+                  :short_name, :cases
 
     # Create new event object
     #
@@ -38,6 +39,9 @@ class Eventkalender
     # @option options [String] :short_name The event short name
     # @option options [String] :streaming Planed event streaming status
     # @option options [String] :planing_status Planed event status
+    # @option cases   [Array] :cases Used onsite
+    # @option deconstruction [Date] :deconstruction of the Event
+    # @option buildup [Date] :buildup of the Event
     def initialize(options = {})
       super(options)
       # optional
@@ -46,6 +50,31 @@ class Eventkalender
       @short_name     = options[:short_name]
       self.streaming  = options[:streaming]
       @planing_status = options[:planing_status]
+      self.cases      = options[:cases]
+      @deconstruction = options[:deconstruction]
+      @buildup        = options[:buildup]
+    end
+
+    # Setter for buildup.
+    #
+    # @example Setting events buildup date.
+    #   event.buildup = "2014-05-23" #=> "2014-05-23"
+    #
+    # @param date [String] buildup date of a event to set
+    # @return [Date] converted and set buildup date
+    def buildup=(date)
+      @buildup = check_date_input(date)
+    end
+
+    # Setter for buildup.
+    #
+    # @example Setting events deconstruction date.
+    #   event.buildup = "2014-05-23" #=> "2014-05-23"
+    #
+    # @param date [String] deconstruction date of a event to set
+    # @return [Date] converted and set deconstruction date
+    def deconstruction=(date)
+      @deconstruction = check_date_input(date)
     end
 
     # Convert event to ical.
@@ -74,6 +103,18 @@ class Eventkalender
     # @return [Boolean] converted and set streaming status
     def streaming=(status)
       @streaming = Eventkalender::Parser.detect_streaming(status)
+    end
+
+    # Setter for cases
+    #
+    # @param cases_string [string] from doku wiki
+    # @return [Array] room cases
+    def cases=(cases_string)
+      if cases_string.nil?
+        @cases = []
+      else
+        @cases = cases_string.delete(' ').split(',')
+      end
     end
   end
 end
