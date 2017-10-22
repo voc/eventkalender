@@ -39,6 +39,22 @@
           #{@events.join('\n')}
         ]
     });
+
+    $('#calendar').fullCalendar('gotoDate', "#{@gotodate}");
+    href_date();
+
+    $('.fc-button').click(function(){
+      href_date();
+    });
+
+    function href_date() {
+      $('.fc-header-title').wrap(function() {
+         var link = $('<a/>');
+         var moment = $('#calendar').fullCalendar('getDate');
+         link.attr('href', "#{url("/?gotodate=")}" + moment.format());
+         return link;
+      });
+    };
   });
 
 :css
