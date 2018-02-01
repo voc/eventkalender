@@ -23,7 +23,7 @@ class Eventkalender
   #   @return [String] event planing status
   class Conference < Event
 
-    attr_reader   :start_date, :end_date, :streaming, :buildup, :deconstruction
+    attr_reader   :start_date, :end_date, :streaming, :buildup, :teardown
     attr_accessor :wiki_path, :planing_status, :name, :location, :description,
                   :short_name, :cases
 
@@ -40,7 +40,7 @@ class Eventkalender
     # @option options [String] :streaming Planed event streaming status
     # @option options [String] :planing_status Planed event status
     # @option cases   [Array] :cases Used onsite
-    # @option deconstruction [Date] :deconstruction of the Event
+    # @option teardown [Date] teardown of the Event
     # @option buildup [Date] :buildup of the Event
     def initialize(options = {})
       super(options)
@@ -51,8 +51,8 @@ class Eventkalender
       self.streaming  = options[:streaming]
       @planing_status = options[:planing_status]
       self.cases      = options[:cases]
-      @deconstruction = options[:deconstruction]
       @buildup        = options[:buildup]
+      @teardown       = options[:teardown]
     end
 
     # Setter for buildup.
@@ -68,13 +68,13 @@ class Eventkalender
 
     # Setter for buildup.
     #
-    # @example Setting events deconstruction date.
+    # @example Setting events teardown date.
     #   event.buildup = "2014-05-23" #=> "2014-05-23"
     #
-    # @param date [String] deconstruction date of a event to set
-    # @return [Date] converted and set deconstruction date
-    def deconstruction=(date)
-      @deconstruction = check_date_input(date)
+    # @param date [String] teardown date of a event to set
+    # @return [Date] converted and set teardown date
+    def teardown=(date)
+      @teardown = check_date_input(date)
     end
 
     # Convert event to ical.

@@ -47,7 +47,7 @@ class Eventkalender
       start_date = self.class.date(raw_event[2].text) # Start date
       end_date = self.class.date(raw_event[3].text) # End date
       buildup = self.class.date(raw_event[9].text)
-      deconstruction = self.class.date(raw_event[10].text)
+      teardown = self.class.date(raw_event[10].text)
       return nil if start_date.nil? || end_date.nil?
       # Create new ical object and return it
       Eventkalender::Conference.new.tap { |e|
@@ -60,7 +60,7 @@ class Eventkalender
         e.streaming      = raw_event[7].text       # Is streaming planed?
         e.planing_status = raw_event[8].text       # Event planing status
         e.buildup        = buildup
-        e.deconstruction = deconstruction
+        e.teardown       = teardown
         e.cases          = raw_event[11].text
 
 
@@ -125,7 +125,7 @@ class Eventkalender
         hash[:voc_events][event.name][:planing_status] = event.planing_status
         hash[:voc_events][event.name][:cases]          = event.cases
         hash[:voc_events][event.name][:buildup]        = event.buildup
-        hash[:voc_events][event.name][:deconstruction] = event.deconstruction
+        hash[:voc_events][event.name][:teardown]       = event.teardown
       end
 
       # Adding statistical data
