@@ -32,6 +32,12 @@ EOF
 EOF
   end
 
+  if params[:gotodate]
+    @gotodate = @params[:gotodate]
+  else
+    @gotodate = Date.today
+  end
+
   haml :index
 end
 
