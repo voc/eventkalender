@@ -37,8 +37,8 @@ RSpec.configure do |config|
   config.before(:each) do
     project_root             = File.expand_path('..', __FILE__)
     fixtures = {
-      'http://c3voc.de/wiki/eventz'   => 'events.htm',
-      'http://c3voc.de/wiki/meetingz' => 'meetings.htm'
+      'https://c3voc.de/wiki/eventz'   => 'events.htm',
+      'https://c3voc.de/wiki/meetingz' => 'meetings.htm'
     }
 
     fixtures.each do |url, file|
