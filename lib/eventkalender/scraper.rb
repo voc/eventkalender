@@ -23,10 +23,10 @@ class Eventkalender
     # web page to scrape
     PAGES_TO_SCRAPE = [
       { type: :conferences,
-        url: 'http://c3voc.de/wiki/eventz',
+        url: 'https://c3voc.de/wiki/eventz',
         xpath: "//*/descendant::table[1]" },
       { type: :meetings,
-        url: 'http://c3voc.de/wiki/meetingz',
+        url: 'https://c3voc.de/wiki/meetingz',
         xpath: "//*/descendant::table[1]" }
     ]
 
