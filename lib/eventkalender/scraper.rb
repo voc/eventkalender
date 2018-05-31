@@ -80,6 +80,8 @@ class Eventkalender
         page[:page] = agent.get(page[:url])
       end
 
+      agent.shutdown
+
       @pages
     end
 
