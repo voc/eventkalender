@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rake', '~> 12.0.0'
 # webframework
 gem 'sinatra', '~> 1.4.8'
+gem 'sinatra-contrib', '~>1.4.6'
 gem 'haml', '~> 4.0.7'
 gem 'sass', '~> 3.4.21'
 # ical lib

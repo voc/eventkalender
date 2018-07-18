@@ -3,13 +3,13 @@
   %ul
     - %w{html ical atom json txt}.each do |format|
       %li
-        %a{ href: url("/events.#{format}") }= format
+        %a{ href: url("#{settings.sub_path}/events.#{format}") }= format
 
   %h4 meetings
   %ul
     - %w{html ical atom json txt}.each do |format|
       %li
-        %a{ href: url("/events.#{format}?meetings=✓") }= format
+        %a{ href: url("#{settings.sub_path}/events.#{format}?meetings=✓") }= format
 #calendar
 
 #comments
@@ -19,10 +19,10 @@
       \/events.txt?filter={past|upcoming|today|2013}&streaming={true|false|undefined}
 
 
-%script{ src: url('/js/moment.min.js') }
-%script{ src: url('/js/jquery.min.js') }
-%script{ src: url('/js/jquery-ui.custom.min.js') }
-%script{ src: url('/js/fullcalendar.min.js') }
+%script{ src: url("#{settings.sub_path}/js/moment.min.js") }
+%script{ src: url("#{settings.sub_path}/js/jquery.min.js") }
+%script{ src: url("#{settings.sub_path}/js/jquery-ui.custom.min.js") }
+%script{ src: url("#{settings.sub_path}/js/fullcalendar.min.js") }
 
 :javascript
   $(document).ready(function() {
@@ -51,7 +51,7 @@
       $('.fc-header-title').wrap(function() {
          var link = $('<a/>');
          var moment = $('#calendar').fullCalendar('getDate');
-         link.attr('href', "#{url("/?gotodate=")}" + moment.format());
+         link.attr('href', "#{url(settings.sub_path + "/?gotodate=")}" + moment.format());
          return link;
       });
     };

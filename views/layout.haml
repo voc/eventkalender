@@ -2,14 +2,14 @@
 %html
   %head
     %title c3voc events
-    %link{ href: url('/events.atom'), rel: 'alternate', title: 'Atom - c3voc events', type: 'application/atom+xml' }
-    %link{ href: url('/css/fullcalendar.css'), rel: 'stylesheet' }
-    %link{ href: url('/css/fullcalendar.print.css'), rel: 'stylesheet', media: 'print' }
-    %link{ href: url('/css/style.css'), rel: 'stylesheet' }
+    %link{ href: url("#{settings.sub_path}/events.atom"), rel: 'alternate', title: 'Atom - c3voc events', type: 'application/atom+xml' }
+    %link{ href: url("#{settings.sub_path}/css/fullcalendar.css"), rel: 'stylesheet' }
+    %link{ href: url("#{settings.sub_path}/css/fullcalendar.print.css"), rel: 'stylesheet', media: 'print' }
+    %link{ href: url("#{settings.sub_path}/css/style.css"), rel: 'stylesheet' }
 
   %body
     %h1
-      %a{ href: url('/') }
+      %a{ href: url("#{settings.sub_path}/") }
         c3voc events
 
     = yield

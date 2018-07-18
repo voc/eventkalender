@@ -1,86 +1,92 @@
 require 'sinatra'
+require "sinatra/namespace"
 require 'haml'
+
 require_relative 'lib/eventkalender'
 
 set :views,  File.dirname(__FILE__) + '/views'
 set :parser, Eventkalender::Parser.new
 set :public_folder, File.dirname(__FILE__) + '/views/public'
 
+set :sub_path, ""
+
 # HTML pages
-get '/' do
-  @events = settings.parser.events[:conferences].events.map do |event|
-    # orange: #FF8C00
-    <<-EOF
-{
-  title: "#{event.name}",
-  start: "#{event.start_date}",
-  end: "#{event.end_date + 1}",
-  url: "#{event.description}",
-  color: '#28c3ab'
-},
-EOF
-  end << settings.parser.events[:meetings].events.map do |event|
-    # orange: #FF8C00
-    <<-EOF
-{
-  title: "#{event.name}",
-  start: "#{event.start_date}",
-  end: "#{event.end_date}",
-  url: "#{event.description}",
-  color: 'orange'
-},
-EOF
+namespace "#{settings.sub_path}" do
+  get '/' do
+    @events = settings.parser.events[:conferences].events.map do |event|
+      # orange: #FF8C00
+      <<-EOF
+  {
+    title: "#{event.name}",
+    start: "#{event.start_date}",
+    end: "#{event.end_date + 1}",
+    url: "#{event.description}",
+    color: '#28c3ab'
+  },
+  EOF
+    end << settings.parser.events[:meetings].events.map do |event|
+      # orange: #FF8C00
+      <<-EOF
+  {
+    title: "#{event.name}",
+    start: "#{event.start_date}",
+    end: "#{event.end_date}",
+    url: "#{event.description}",
+    color: 'orange'
+  },
+  EOF
+    end
+
+    if params[:gotodate]
+      @gotodate = @params[:gotodate]
+    else
+      @gotodate = Date.today
+    end
+
+    haml :index
   end
 
-  if params[:gotodate]
-    @gotodate = @params[:gotodate]
-  else
-    @gotodate = Date.today
+  get '/events.html' do
+    @events = filter(filter_params,
+                     settings.parser.events[meetings_or_conferences].events)
+
+    haml :events
   end
 
-  haml :index
-end
+  # Formats
+  get '/events.ical' do
+    content_type 'text/calendar'
 
-get '/events.html' do
-  @events = filter(filter_params,
-                   settings.parser.events[meetings_or_conferences].events)
+    events = filter
 
-  haml :events
-end
+    cal = settings.parser.to_ical_calendar(events)
+    cal.to_ical
+  end
 
-# Formats
-get '/events.ical' do
-  content_type 'text/calendar'
+  get '/events.atom' do
+    content_type 'application/atom+xml'
 
-  events = filter
+    events = filter
 
-  cal = settings.parser.to_ical_calendar(events)
-  cal.to_ical
-end
+    feed = settings.parser.events[meetings_or_conferences].to_atom(events)
+    feed.to_s
+  end
 
-get '/events.atom' do
-  content_type 'application/atom+xml'
+  get '/events.txt' do
+    content_type 'text/plain'
 
-  events = filter
+    events = filter
+    settings.parser.events[meetings_or_conferences].to_txt(events)
+  end
 
-  feed = settings.parser.events[meetings_or_conferences].to_atom(events)
-  feed.to_s
-end
+  get '/events.json' do
+    content_type 'application/json'
 
-get '/events.txt' do
-  content_type 'text/plain'
+    events = filter
 
-  events = filter
-  settings.parser.events[meetings_or_conferences].to_txt(events)
-end
-
-get '/events.json' do
-  content_type 'application/json'
-
-  events = filter
-
-  json = settings.parser.events[meetings_or_conferences].to_json(events)
-  json.to_s
+    json = settings.parser.events[meetings_or_conferences].to_json(events)
+    json.to_s
+  end
 end
 
 
