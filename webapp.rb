@@ -1,5 +1,5 @@
 require 'sinatra'
-require "sinatra/namespace"
+require 'sinatra/namespace'
 require 'haml'
 
 require_relative 'lib/eventkalender'

@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rake', '~> 12.0.0'
 # webframework
-gem 'sinatra', '~> 1.4.8'
-gem 'sinatra-contrib', '~>1.4.6'
+gem 'sinatra', '~> 2.0.3'
+gem 'sinatra-contrib', '~> 2.0.3'
 gem 'haml', '~> 4.0.7'
 gem 'sass', '~> 3.4.21'
 # ical lib
@@ -15,7 +15,7 @@ group :development do
   gem 'rspec', '~> 3.5.0'
   gem 'webmock', '~> 2.3.2'
   gem 'simplecov', '~> 0.12.0'
-  gem 'rack', '~> 1.6.5'
+  gem 'rack', '~> 2.0.0'
   gem 'rack-test', '~> 0.6.3'
   gem 'tux', '~> 0.3.0'
   gem 'inch', '~> 0.7.1'
