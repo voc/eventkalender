@@ -1,11 +1,11 @@
-# This class overwrites Fixnum in core to adds rails like time handling
+# This class overwrites Integer in core to adds rails like time handling
 # and can be used to determine time shifts.
 #
 # @example
 #   1.day.ago #=> 2014-05-08 23:02:46 +0200
 # @example
 #   23.hours.ago #=> 2014-05-08 12:12:49 +0200
-class Fixnum
+class Integer
 
   # a day in seconds
   SECONDS_IN_DAY     = 24 * 60 * 60
@@ -19,7 +19,7 @@ class Fixnum
   # @example Convert two days into seconds
   #   2.days #=> 172800
   #
-  # @return [Fixnum] days in seconds
+  # @return [Integer] days in seconds
   def days
     self * SECONDS_IN_DAY
   end
@@ -29,7 +29,7 @@ class Fixnum
   # @example Convert two minutes into seconds
   #   2.minutes #=> 120
   #
-  # @return [Fixnum] minutes in seconds
+  # @return [Integer] minutes in seconds
   def minutes
     self * SECONDS_IN_MINUTES
   end
@@ -39,7 +39,7 @@ class Fixnum
   # @example Convert two hours into seconds
   #   2.hours #=> 7200
   #
-  # @return [Fixnum] hours in seconds
+  # @return [Integer] hours in seconds
   def hours
     self * SECONDS_IN_HOUR
   end

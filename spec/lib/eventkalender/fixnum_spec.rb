@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'Fixnum' do
+describe 'Integer' do
   describe 'Constants' do
     it 'should have seconds per day,
                     seconds per hour and
                     seconds per minutes defined' do
-      expect(Fixnum::SECONDS_IN_DAY).to eq 86_400
-      expect(Fixnum::SECONDS_IN_HOUR).to eq 3_600
-      expect(Fixnum::SECONDS_IN_MINUTES).to eq 60
+      expect(Integer::SECONDS_IN_DAY).to eq 86_400
+      expect(Integer::SECONDS_IN_HOUR).to eq 3_600
+      expect(Integer::SECONDS_IN_MINUTES).to eq 60
     end
   end
 
@@ -26,8 +26,8 @@ describe 'Fixnum' do
       expect(2.minutes).to eq 120
     end
 
-    it 'should return Fixnum object' do
-      expect(23.days).to be_instance_of Fixnum
+    it 'should return Integer object' do
+      expect(23.days).to be_instance_of Integer
     end
   end
 
@@ -36,8 +36,8 @@ describe 'Fixnum' do
       expect(2.hours).to eq 7_200
     end
 
-    it 'should return Fixnum object' do
-      expect(23.days).to be_instance_of Fixnum
+    it 'should return Integer object' do
+      expect(23.days).to be_instance_of Integer
     end
   end
 
@@ -46,8 +46,8 @@ describe 'Fixnum' do
       expect(2.days).to eq 172_800
     end
 
-    it 'should return Fixnum object' do
-      expect(23.days).to be_instance_of Fixnum
+    it 'should return Integer object' do
+      expect(23.days).to be_instance_of Integer
     end
   end
 end
