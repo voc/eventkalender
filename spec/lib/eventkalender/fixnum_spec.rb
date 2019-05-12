@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe 'Integer' do
+
+  # @deprecation: Ruby 2.3.3 support will be dropped soon.
+  if RUBY_VERSION < "2.4.0"
+    CLASS_TYPE = Fixnum
+  else
+    CLASS_TYPE = Integer
+  end 
+
   describe 'Constants' do
     it 'should have seconds per day,
                     seconds per hour and
@@ -27,7 +35,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of Integer
+      expect(23.days).to be_instance_of CLASS_TYPE
     end
   end
 
@@ -37,7 +45,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of Integer
+      expect(23.days).to be_instance_of CLASS_TYPE
     end
   end
 
@@ -47,7 +55,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of Integer
+      expect(23.days).to be_instance_of CLASS_TYPE
     end
   end
 end

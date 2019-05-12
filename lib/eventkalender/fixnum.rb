@@ -54,3 +54,9 @@ class Integer
     Time.now - self
   end
 end
+
+# @deprecated: Ruby 2.3.3 support will be dropped soon.
+if RUBY_VERSION < "2.4.0"
+  class Fixnum < Integer
+  end
+end
