@@ -127,7 +127,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff
     webrobots (0.1.2)
-    yard (0.9.19)
+    yard (0.9.20)
 
 PLATFORMS
   ruby
