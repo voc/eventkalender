@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'rake', '~> 12.0.0'
+gem 'rake', '~> 13.0.0'
 # webframework
-gem 'sinatra', '~> 2.0.5'
-gem 'sinatra-contrib', '~> 2.0.5'
-gem 'haml', '~> 5.0.4'
+gem 'sinatra', '~> 2.0.7'
+gem 'sinatra-contrib', '~> 2.0.7'
+gem 'haml', '~> 5.1.2'
 gem 'sass', '~> 3.7.4'
 # ical lib
 gem 'icalendar', '~> 2.5.3'
@@ -23,5 +23,5 @@ group :development do
   gem 'tins', '~> 1.20.2'           # 1.9.3 force
   gem 'mime-types', '~> 3.2.2'    # 1.9.3 force
   gem 'term-ansicolor', '~> 1.7.1' # 1.9.3 force
-  gem 'nokogiri', '~> 1.10.3'     # 1.9.3 force
+  gem 'nokogiri', '~> 1.10.5'
 end

@@ -1,4 +1,4 @@
-FROM ruby:2.6.3-alpine3.9
+FROM ruby:2.6.5-alpine3.10
 
 RUN apk -U add gcc make libc-dev linux-headers g++ \
  && gem install unicorn rack\
