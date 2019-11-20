@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 class Eventkalender
   class Parser::Conferences < Eventkalender::Parser
-
     def initialize(event_table)
       @event_table = event_table
       parse(event_table)
     end
 
-    def events(events = self.parse)
+    def events(events = parse)
       events
     end
 
@@ -19,7 +20,7 @@ class Eventkalender
     # @return [String] txt file
     def to_txt(events = self.events)
       # Create empty string
-      txt = ''
+      txt = +''
 
       events.each do |event|
         # Add event to string
@@ -27,9 +28,7 @@ class Eventkalender
                "#{event.start_date.strftime('%d.%m.%Y')} - #{event.end_date.strftime('%d.%m.%Y')}"
 
         # Adding two empty lines when current event is not the last one
-        unless events.last.name == event.name
-          txt << "\n\n"
-        end
+        txt << "\n\n" unless events.last.name == event.name
       end
 
       txt
@@ -44,13 +43,15 @@ class Eventkalender
       raw_event = table_row.search('./td')
       # Return nil if dates are not set
       return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
+
       start_date = self.class.date(raw_event[2].text) # Start date
       end_date = self.class.date(raw_event[3].text) # End date
       buildup = self.class.date(raw_event[9].text)
       teardown = self.class.date(raw_event[10].text)
       return nil if start_date.nil? || end_date.nil?
+
       # Create new ical object and return it
-      Eventkalender::Conference.new.tap { |e|
+      Eventkalender::Conference.new.tap do |e|
         # Add more information to ical object.
         e.name           = raw_event[0].text       # Event name
         e.location       = raw_event[1].text       # Event location
@@ -63,11 +64,10 @@ class Eventkalender
         e.teardown       = teardown
         e.cases          = raw_event[11].text
 
-
         url_path = raw_event[0].xpath('./a[@href]')[0]['href']
-        e.short_name  = /^.*\/(.*)$/.match(url_path)[1]
+        e.short_name  = %r{^.*/(.*)$}.match(url_path)[1]
         e.wiki_path   = url_path
-      }
+      end
     end
 
     # Create atom feed from given events array.
@@ -86,9 +86,9 @@ class Eventkalender
         maker.channel.links.first.rel  = 'self'
         maker.channel.links.first.type = 'application/atom+xml'
 
-        maker.channel.title   = 'VOC Events'
+        maker.channel.title = 'VOC Events'
 
-        events.each { |event|
+        events.each do |event|
           maker.items.new_item do |item|
             item.updated     = Time.now.to_s
             item.title       = event.name
@@ -98,7 +98,7 @@ class Eventkalender
                                "bis #{event.end_date.strftime('%d.%m.%Y')}."
             item.link        = 'http://c3voc.de/eventkalender'
           end
-        }
+        end
       end
     end
 

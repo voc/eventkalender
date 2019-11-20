@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Integer' do
-
   # @deprecation: Ruby 2.3.3 support will be dropped soon.
-  if RUBY_VERSION < "2.4.0"
-    CLASS_TYPE = Fixnum
-  else
-    CLASS_TYPE = Integer
-  end 
+  CLASS_TYPE = if RUBY_VERSION < '2.4.0'
+                 Fixnum
+               else
+                 Integer
+               end
 
   describe 'Constants' do
     it 'should have seconds per day,

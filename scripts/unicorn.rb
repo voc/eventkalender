@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 process   = ENV['PROCESS'] || 1
 listen    = ENV['LISTEN']  || 8000
 

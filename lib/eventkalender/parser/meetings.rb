@@ -1,8 +1,7 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 class Eventkalender
   class Parser::Meetings < Eventkalender::Parser
-
     attr_accessor :event_table
 
     def initialize(event_table)
@@ -10,7 +9,7 @@ class Eventkalender
       parse(event_table)
     end
 
-    def events(events = self.parse)
+    def events(events = parse)
       events
     end
 
@@ -23,7 +22,7 @@ class Eventkalender
     # @return [String] txt file
     def to_txt(events = self.events)
       # Create empty string
-      txt = ''
+      txt = +''
 
       events.each do |event|
         # Add event to string
@@ -32,9 +31,7 @@ class Eventkalender
                " - #{event.end_date.strftime('%d.%m.%Y %H:%M')} Uhr"
 
         # Adding two empty lines when current event is not the last one
-        unless events.last.name == event.name
-          txt << "\n\n"
-        end
+        txt << "\n\n" unless events.last.name == event.name
       end
 
       txt
@@ -49,14 +46,15 @@ class Eventkalender
       raw_event = table_row.search('./td')
       # return nil if no dates are set
       return nil if raw_event[3].text.empty? || raw_event[4].text.empty?
+
       begin
         start_date = DateTime.parse("#{self.class.date(raw_event[3].text)} #{raw_event[5].text}")                    # Start date time
         end_date   = DateTime.parse("#{self.class.date(raw_event[4].text)} #{end_time_defined?(raw_event[6].text)}") # End date time
-      rescue
+      rescue StandardError
         return nil
       end
       # Create new ical object and return it
-      Eventkalender::Meeting.new.tap { |e|
+      Eventkalender::Meeting.new.tap do |e|
         # Add more information to ical object.
         e.name           = raw_event[0].text       # Event name
         e.type           = raw_event[1].text       # URL
@@ -65,7 +63,7 @@ class Eventkalender
         e.end_date       = end_date
         e.link           = raw_event[7].text       # URL
         e.tags           = raw_event[8].text       # Tags
-      }
+      end
     end
 
     # Create atom feed from given events array.
@@ -84,9 +82,9 @@ class Eventkalender
         maker.channel.links.first.rel  = 'self'
         maker.channel.links.first.type = 'application/atom+xml'
 
-        maker.channel.title   = 'VOC Meetings'
+        maker.channel.title = 'VOC Meetings'
 
-        events.each { |event|
+        events.each do |event|
           maker.items.new_item do |item|
             item.updated     = Time.now.to_s
             item.title       = event.name
@@ -96,7 +94,7 @@ class Eventkalender
                                "bis #{event.end_date.strftime('%d.%m.%Y %H:%M')} Uhr."
             item.link        = 'http://c3voc.de/eventkalender'
           end
-        }
+        end
       end
     end
 
@@ -120,15 +118,14 @@ class Eventkalender
         hash[:voc_meetings][event.name][:tags]           = event.tags
       end
 
-      hash[:voc_meetings_count][:all]                    = events.count
+      hash[:voc_meetings_count][:all] = events.count
 
       JSON.pretty_generate(hash)
     end
 
     def description
-      "#{@link}"
+      @link.to_s
     end
-
 
     # Events with no end time defined should be created as all day event.
     #
@@ -136,7 +133,7 @@ class Eventkalender
     # @return [String] end_time
     def end_time_defined?(time)
       if time.empty?
-        "24:00"
+        '24:00'
       else
         time
       end

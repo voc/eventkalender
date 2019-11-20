@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Eventkalender
   # Represents a voc event.
   #
@@ -22,7 +24,6 @@ class Eventkalender
   # @!attribute [rw] planing_status
   #   @return [String] event planing status
   class Event
-
     attr_reader   :start_date, :end_date
     attr_accessor :name, :location
 
@@ -106,6 +107,5 @@ class Eventkalender
     def check_date_input(date)
       Eventkalender::Parser.date(date)
     end
-
   end
 end

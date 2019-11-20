@@ -1,16 +1,17 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Eventkalender::Conference do
-
   before(:each) do
-    @event = Eventkalender::Conference.new(name:           'my todes event',
-                                           location:       'todes location',
-                                           start_date:     '24.04.1999',
-                                           end_date:       '24.04.2000',
-                                           description:    'http://example.com',
-                                           short_name:     'h5n1',
-                                           wiki_path:      '/wiki/h5n1',
-                                           buildup:        '23.04.1999',
+    @event = Eventkalender::Conference.new(name: 'my todes event',
+                                           location: 'todes location',
+                                           start_date: '24.04.1999',
+                                           end_date: '24.04.2000',
+                                           description: 'http://example.com',
+                                           short_name: 'h5n1',
+                                           wiki_path: '/wiki/h5n1',
+                                           buildup: '23.04.1999',
                                            teardown: '25.04.2000',
                                            planing_status: '')
   end
@@ -30,7 +31,6 @@ describe Eventkalender::Conference do
       expect(@event.wiki_path).to   eq '/wiki/h5n1'
       expect(@event.buildup).to     eq '23.04.1999'
       expect(@event.teardown).to eq '25.04.2000'
-
     end
   end
 
@@ -46,7 +46,6 @@ describe Eventkalender::Conference do
       expect(@event.buildup).to     eq '23.04.1999'
       expect(@event.teardown).to eq '25.04.2000'
     end
-
   end
 
   describe 'setter' do
@@ -81,13 +80,13 @@ describe Eventkalender::Conference do
       # Input String
       date = @event.send(:check_date_input, '2023-05-23')
 
-      expect(date.kind_of?(Date)).to be true
+      expect(date.is_a?(Date)).to be true
       expect(date.to_s).to eq '2023-05-23'
 
       # Input Date object
       date = @event.send(:check_date_input, Date.parse('24.12.2014'))
 
-      expect(date.kind_of?(Date)).to be true
+      expect(date.is_a?(Date)).to be true
       expect(date.to_s).to eq '2014-12-24'
     end
 
@@ -155,19 +154,19 @@ describe Eventkalender::Conference do
   describe '.streaming=' do
     it 'should set false, true or nil' do
       # yes, we have streaming on this event
-      @event.streaming= 'ja'
+      @event.streaming = 'ja'
       expect(@event.streaming).to be true
-      @event.streaming= 'Ja'
+      @event.streaming = 'Ja'
       expect(@event.streaming).to be true
       # no streaming
-      @event.streaming= 'nein'
+      @event.streaming = 'nein'
       expect(@event.streaming).to be false
       # streaming status is unclear
-      @event.streaming= 'vielleicht'
+      @event.streaming = 'vielleicht'
       expect(@event.streaming).to be nil
-      @event.streaming= ''
+      @event.streaming = ''
       expect(@event.streaming).to be nil
-      @event.streaming= nil
+      @event.streaming = nil
       expect(@event.streaming).to be nil
     end
   end

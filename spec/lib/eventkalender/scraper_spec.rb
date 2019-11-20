@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Eventkalender::Scraper do
@@ -29,7 +31,7 @@ describe Eventkalender::Scraper do
     end
 
     it 'should be possible to change url for this function' do
-      stub_request(:get, 'http://c3voc.de/wiki/bla').to_return( body: 'bla' )
+      stub_request(:get, 'http://c3voc.de/wiki/bla').to_return(body: 'bla')
       pages = @scraper.get_pages([{ type: :conferences,
                                     url: 'http://c3voc.de/wiki/bla',
                                     xpath: "//*/div[@class='table dataaggregation']/descendant::table[1]" }])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/namespace'
 require 'haml'
@@ -8,10 +10,10 @@ set :views,  File.dirname(__FILE__) + '/views'
 set :parser, Eventkalender::Parser.new
 set :public_folder, File.dirname(__FILE__) + '/views/public'
 
-set :sub_path, ""
+set :sub_path, ''
 
 # HTML pages
-namespace "#{settings.sub_path}" do
+namespace settings.sub_path.to_s do
   get '/' do
     @events = settings.parser.events[:conferences].events.map do |event|
       # orange: #FF8C00
@@ -23,7 +25,7 @@ namespace "#{settings.sub_path}" do
     url: "#{event.description}",
     color: '#28c3ab'
   },
-  EOF
+      EOF
     end << settings.parser.events[:meetings].events.map do |event|
       # orange: #FF8C00
       <<-EOF
@@ -34,14 +36,14 @@ namespace "#{settings.sub_path}" do
     url: "#{event.description}",
     color: 'orange'
   },
-  EOF
+      EOF
     end
 
-    if params[:gotodate]
-      @gotodate = @params[:gotodate]
-    else
-      @gotodate = Date.today
-    end
+    @gotodate = if params[:gotodate]
+                  @params[:gotodate]
+                else
+                  Date.today
+                end
 
     haml :index
   end
@@ -89,9 +91,6 @@ namespace "#{settings.sub_path}" do
   end
 end
 
-
-
-
 # helper function
 def filter_params
   { general: params[:filter], streaming: params[:streaming], idea: params[:idea] }
@@ -118,26 +117,26 @@ end
 def filter(filter = filter_params,
            events = settings.parser.events[meetings_or_conferences].events)
   filtered_events = case filter[:general]
-  # All past events
-  when /past/
-    events.find_all { |event| event.past? }
-  # All upcoming events
-  when /upcoming/
-    events.find_all { |event| event.upcoming? }
-  # Currently running events
-  when /now|today/
-    events.find_all { |event| event.now? }
-  # Match a year
-  when /\d{4}/
-    events.find_all { |event| event.start_date.year == filter[:general].to_i }
-  # Return all events if no filter is set
-  when /meeting/
-    events.find_all { |event| event.class == Eventkalender::Meeting }
-  when /conference/
-      events.find_all { |event| event.class == Eventkalender::Conference }
-  # Return all events if no filter is set
-  else
-    events
+                    # All past events
+                    when /past/
+                      events.find_all(&:past?)
+                    # All upcoming events
+                    when /upcoming/
+                      events.find_all(&:upcoming?)
+                    # Currently running events
+                    when /now|today/
+                      events.find_all(&:now?)
+                    # Match a year
+                    when /\d{4}/
+                      events.find_all { |event| event.start_date.year == filter[:general].to_i }
+                    # Return all events if no filter is set
+                    when /meeting/
+                      events.find_all { |event| event.class == Eventkalender::Meeting }
+                    when /conference/
+                      events.find_all { |event| event.class == Eventkalender::Conference }
+                    # Return all events if no filter is set
+                    else
+                      events
   end
 
   # filter for idea events
@@ -151,7 +150,6 @@ def filter(filter = filter_params,
   filter_streaming(filter[:streaming], filtered_events)
 end
 
-
 # Filter for events with streaming status.
 #
 # @example Filter  for events with streaming
@@ -164,11 +162,11 @@ end
 def filter_streaming(filter, events)
   case filter
   when /true|yes/
-    events.find_all { |event| event.streaming }
+    events.find_all(&:streaming)
   when /false|no/
     events.find_all { |event| event.streaming == false }
   when /undefined|nil|null/
-    events.find_all { |e| e.streaming == nil }
+    events.find_all { |e| e.streaming.nil? }
   else
     events
   end
@@ -179,5 +177,5 @@ end
 # @param events [Array<Event>, #events] to filter
 # @return [Array] events with status idea
 def remove_idea_events(events)
-  events.delete_if { |event| event.idea? }
+  events.delete_if(&:idea?)
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Webpage eventkalender' do
@@ -84,8 +86,8 @@ describe 'Webpage eventkalender' do
     it 'should render event description as html link' do
       get '/events.html'
 
-      expect(last_response.body).to match(/http:\/\/hacknplay.org/)
-      expect(last_response.body).not_to match(/>keine webseite<\/a>/)
+      expect(last_response.body).to match(%r{http://hacknplay.org})
+      expect(last_response.body).not_to match(%r{>keine webseite</a>})
     end
   end
 
@@ -133,7 +135,7 @@ describe 'Webpage eventkalender' do
     end
   end
 
-  describe '/events.txt?meetings=yes'  do
+  describe '/events.txt?meetings=yes' do
     it 'should return valid response on GET' do
       get '/events.txt'
 
