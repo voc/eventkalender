@@ -1,7 +1,7 @@
 # eventkalender
 
 Small [sinatra](http://www.sinatrarb.com/) web application to serve [feeds](https://c3voc.de/eventkalender) for [c3voc](http://c3voc.de) [events](https://c3voc.de/wiki/events).<br>
-Eventkalender is tested against Ruby `2.3.3`, `2.5.1` and `2.6.3`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender) [![Inline docs](http://inch-ci.org/github/voc/eventkalender.png?branch=master)](http://inch-ci.org/github/voc/eventkalender)
+Eventkalender is tested against Ruby `2.5.7` and `2.6.5`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender) [![Inline docs](http://inch-ci.org/github/voc/eventkalender.png?branch=master)](http://inch-ci.org/github/voc/eventkalender)
 
 ## Usage
 
