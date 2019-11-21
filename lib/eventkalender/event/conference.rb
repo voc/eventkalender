@@ -26,7 +26,7 @@ class Eventkalender
   class Conference < Event
     attr_reader   :start_date, :end_date, :streaming, :buildup, :teardown
     attr_accessor :wiki_path, :planing_status, :name, :location, :description,
-                  :short_name, :cases
+                  :short_name
 
     # Create new event object
     #
@@ -115,6 +115,13 @@ class Eventkalender
                else
                  cases_string.delete(' ').split(',')
                end
+    end
+
+    # Getter for cases
+    #
+    # @return [Array] room cases
+    def cases
+      @cases
     end
   end
 end

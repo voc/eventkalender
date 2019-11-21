@@ -25,7 +25,7 @@ class Eventkalender
   #   @return [String] event planing status
   class Meeting < Event
     attr_reader   :start_date, :end_date
-    attr_accessor :tags, :type, :link, :location, :description, :name
+    attr_accessor :type, :link, :location, :name
 
     # Create new event object
     #
@@ -92,6 +92,13 @@ class Eventkalender
     # @return [Array] with tags
     def tags=(string)
       @tags = convert_tags(string)
+    end
+
+    # Getter for tags.
+    #
+    # @return [Array] with tags
+    def tags
+      @tags
     end
   end
 end

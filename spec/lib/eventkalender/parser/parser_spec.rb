@@ -42,14 +42,14 @@ describe Eventkalender::Parser do
   #
   #      event = @parser.to_event(rows[2])
   #
-  #      expect(event.name).to            match /Easterhegg 2014/
-  #      expect(event.location).to        match /Stuttgart/
-  #      expect(event.start_date.to_s).to match /2014-04-18/
-  #      expect(event.end_date.to_s).to   match /2014-04-21/
-  #      expect(event.description).to     match /https:\/\/eh14.easterhegg.eu\//
+  #      expect(event.name).to            match(/Easterhegg 2014/)
+  #      expect(event.location).to        match(/Stuttgart/)
+  #      expect(event.start_date.to_s).to match(/2014-04-18/)
+  #      expect(event.end_date.to_s).to   match(/2014-04-21/)
+  #      expect(event.description).to     match(/https:\/\/eh14.easterhegg.eu\/)
   #      expect(event.streaming).to       be true
-  #      expect(event.short_name).to      match /easterhegg14/
-  #      expect(event.wiki_path.to_s).to  match /\/wiki\/easterhegg14/
+  #      expect(event.short_name).to      match(/easterhegg14/)
+  #      expect(event.wiki_path.to_s).to  match(/\/wiki\/easterhegg14/)
   #      expect(event.wiki_path).to be_instance_of String
   #    end
   #  end
@@ -158,17 +158,17 @@ describe Eventkalender::Parser do
   #      # case past, streaming off
   #      events = @parser.filter( { general: 'past', streaming: 'true' } )
   #      expect(events.count).to eq 1
-  #      expect(events.first.name).to match /FOSSGIS/
+  #      expect(events.first.name).to match(/FOSSGIS/)
   #
   #      # case upcoming, streaming on
   #      events = @parser.filter( { general: 'upcoming', streaming: 'true' } )
   #      expect(events.count).to eq 6
-  #      expect(events.last.name).to match /31C3/
+  #      expect(events.last.name).to match(/31C3/)
   #
   #      # case upcoming, streaming on, idea event
   #      events = @parser.filter( { general: 'upcoming', streaming: 'true', idea: 'true' } )
   #      expect(events.count).to eq 7
-  #      expect(events.last.name).to match /ICMP/
+  #      expect(events.last.name).to match(/ICMP/)
   #    end
   #  end
   #

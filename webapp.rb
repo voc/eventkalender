@@ -137,7 +137,7 @@ def filter(filter = filter_params,
                     # Return all events if no filter is set
                     else
                       events
-  end
+                    end
 
   # filter for idea events
   # default: remove idea events

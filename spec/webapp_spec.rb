@@ -14,8 +14,8 @@ describe 'Webpage eventkalender' do
     it 'should return valid ical feed' do
       get '/events.ical'
 
-      expect(last_response.body).to match /END:VCALENDAR/
-      expect(last_response.body).to match /SUMMARY:FrOSCon/
+      expect(last_response.body).to match(/END:VCALENDAR/)
+      expect(last_response.body).to match(/SUMMARY:FrOSCon/)
     end
   end
 
@@ -43,7 +43,7 @@ describe 'Webpage eventkalender' do
     it 'should return text data' do
       get '/events.txt'
 
-      expect(last_response.body).to match /31C3 - Hamburg/
+      expect(last_response.body).to match(/31C3 - Hamburg/)
       expect(last_response.status).to eq 200
     end
   end
@@ -116,8 +116,8 @@ describe 'Webpage eventkalender' do
     it 'should return valid ical feed' do
       get '/events.ical?meetings=yes'
 
-      expect(last_response.body).to match /END:VCALENDAR/
-      expect(last_response.body).to match /SUMMARY:Mumble/
+      expect(last_response.body).to match(/END:VCALENDAR/)
+      expect(last_response.body).to match(/SUMMARY:Mumble/)
     end
   end
 
@@ -145,7 +145,7 @@ describe 'Webpage eventkalender' do
     it 'should return text data' do
       get '/events.txt?meetings=yes'
 
-      expect(last_response.body).to match /Geekend 2014 - CCCB/
+      expect(last_response.body).to match(/Geekend 2014 - CCCB/)
       expect(last_response.status).to eq 200
     end
   end

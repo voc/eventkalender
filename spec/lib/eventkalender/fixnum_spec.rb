@@ -3,13 +3,6 @@
 require 'spec_helper'
 
 describe 'Integer' do
-  # @deprecation: Ruby 2.3.3 support will be dropped soon.
-  CLASS_TYPE = if RUBY_VERSION < '2.4.0'
-                 Fixnum
-               else
-                 Integer
-               end
-
   describe 'Constants' do
     it 'should have seconds per day,
                     seconds per hour and
@@ -22,7 +15,7 @@ describe 'Integer' do
 
   describe '.ago' do
     it 'should return a pased time stamp' do
-      expect(2.days.ago.to_s).to eq (Time.now - 172_800).to_s
+      expect(2.days.ago.to_s).to eq((Time.now - 172_800).to_s)
     end
 
     it 'should return Time object' do
@@ -36,7 +29,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of CLASS_TYPE
+      expect(23.days).to be_instance_of Integer
     end
   end
 
@@ -46,7 +39,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of CLASS_TYPE
+      expect(23.days).to be_instance_of Integer
     end
   end
 
@@ -56,7 +49,7 @@ describe 'Integer' do
     end
 
     it 'should return Integer object' do
-      expect(23.days).to be_instance_of CLASS_TYPE
+      expect(23.days).to be_instance_of Integer
     end
   end
 end
