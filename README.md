@@ -77,6 +77,15 @@ Test installation and run application with puma.
  ruby webapp.rb
 ```
 
+## Docker
+
+Docker [image builds](https://github.com/voc/eventkalender/packages/61060) are created with github actions after every push.
+
+Local builds can be created with:
+```
+docker build -t eventkalender .
+```
+
 ## Deployment
 
 It is highly recommended to deploy this application with passenger or comparable webservers.
