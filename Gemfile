@@ -21,7 +21,7 @@ group :development do
   gem 'rack', '~> 2.0.0'
   gem 'rack-test', '~> 0.6.3'
   gem 'rspec', '~> 3.8.0'
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.76.0'
   gem 'simplecov', '~> 0.16.1'
   gem 'term-ansicolor', '~> 1.7.1' # 1.9.3 force
   gem 'tins', '~> 1.20.2' # 1.9.3 force
