@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Eventkalender::Parser::Conferences do
-
   before(:each) do
   end
 
@@ -23,10 +24,10 @@ describe Eventkalender::Parser::Conferences do
     it 'should generate right ical event format' do
       get '/events.ical?meetings=yes'
 
-      ical_events = last_response.body.split(/BEGIN:VEVENT/).map{ |e| "BEGIN:VEVENT" + e }
+      ical_events = last_response.body.split(/BEGIN:VEVENT/).map { |e| 'BEGIN:VEVENT' + e }
 
-      eh_mumble           = ical_events.select{ |e| e =~ /.*eh17-mumble.*/}.first
-      maintenance_weekend = ical_events.select{ |e| e =~ /.*maintenance weekend.*/}.first
+      eh_mumble           = ical_events.select { |e| e =~ /.*eh17-mumble.*/ }.first
+      maintenance_weekend = ical_events.select { |e| e =~ /.*maintenance weekend.*/ }.first
 
       # event with start and end time defined
       expect(eh_mumble).to match(/DTSTART:20170330T200000/)

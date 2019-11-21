@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 root_dir = File.dirname(__FILE__)
 app_file = File.join(root_dir, 'webapp.rb')
 require app_file

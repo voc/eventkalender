@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This class overwrites Integer in core to adds rails like time handling
 # and can be used to determine time shifts.
 #
@@ -6,7 +8,6 @@
 # @example
 #   23.hours.ago #=> 2014-05-08 12:12:49 +0200
 class Integer
-
   # a day in seconds
   SECONDS_IN_DAY     = 24 * 60 * 60
   # an hour in seconds
@@ -52,11 +53,5 @@ class Integer
   # @return [Time] timestamp in the past for given period
   def ago
     Time.now - self
-  end
-end
-
-# @deprecated: Ruby 2.3.3 support will be dropped soon.
-if RUBY_VERSION < "2.4.0"
-  class Fixnum < Integer
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'mechanize'
 
 class Eventkalender
@@ -19,16 +21,15 @@ class Eventkalender
   # @attribute [r] table
   #   @return [Nokogiri::XML::Element] That holds events.
   class Scraper
-
     # web page to scrape
     PAGES_TO_SCRAPE = [
       { type: :conferences,
         url: 'https://c3voc.de/wiki/eventz',
-        xpath: "//*/descendant::table[1]" },
+        xpath: '//*/descendant::table[1]' },
       { type: :meetings,
         url: 'https://c3voc.de/wiki/meetingz',
-        xpath: "//*/descendant::table[1]" }
-    ]
+        xpath: '//*/descendant::table[1]' }
+    ].freeze
 
     attr_reader :pages, :tables
 
@@ -60,7 +61,7 @@ class Eventkalender
     #
     # @return [Nokogiri::XML::Element] scrapped event table
     def self.scrape!
-      scraper = self.new
+      scraper = new
       scraper.scrape
     end
 
@@ -72,7 +73,7 @@ class Eventkalender
       # Create agent
       agent = Mechanize.new
       agent.user_agent = "eventkalender/#{Eventkalender::VERSION} "\
-                         "(https://github.com/voc/eventkalender)"
+                         '(https://github.com/voc/eventkalender)'
       # create copy of PAGES_TO_SCRAPE
       @pages = urls.clone
       # Get web page

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Eventkalender::Parser::Meetings do
-
   describe '#to_txt' do
     it 'should return events string' do
       # pending

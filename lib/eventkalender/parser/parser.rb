@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # stdlib
 require 'pathname'
 require 'date'
@@ -21,9 +23,7 @@ class Eventkalender
   # @!attribute [r] timestamp
   #   @return [Time] Last scraping time.
   class Parser
-
     attr_reader :events_tables, :timestamp
-
 
     def parse(table = @event_table)
       found_events = []
@@ -33,19 +33,17 @@ class Eventkalender
 
       # HACK: Ugly workaround for unknown xpath matching problems.
       #       If clause is only needed for rspec and webmock.
-      if event_rows.count == 0
-        event_rows = table.search('./*/tr')
-      end
+      event_rows = table.search('./*/tr') if event_rows.count.zero?
 
       # Iterate over all rows and create ical events for every event.
       events = event_rows.map do |row|
         # Skip headlines
         next if row.search('./td').empty?
 
-      	event = to_event(row)
-      	if event.nil?
+        event = to_event(row)
+        if event.nil?
           next
-      	else
+        else
           found_events << event
         end
       end
@@ -65,7 +63,7 @@ class Eventkalender
     # @return [Array] scraped events
     def events(force_scraping = false)
       # Get events table from web page scraper or from instance variable
-      if @events_tables.nil? || @timestamp - 20.minutes.ago < 0 || force_scraping
+      if @events_tables.nil? || (@timestamp - 20.minutes.ago).negative? || force_scraping
         @events_tables = Eventkalender::Scraper.scrape!
         @timestamp     = Time.now
       end
@@ -115,11 +113,9 @@ class Eventkalender
       when String
         begin
           Date.parse(date)
-        rescue
+        rescue StandardError
           nil
         end
-      else
-        nil
       end
     end
 
@@ -132,12 +128,10 @@ class Eventkalender
     # @return [Boolean, nil] streaming status true or false or not defined
     def self.detect_streaming(string)
       case string
-        when /[Jj]a|[Yy]es/
-          true
-        when /[Nn]ein|[Nn]o/
-          false
-        else
-          nil
+      when /[Jj]a|[Yy]es/
+        true
+      when /[Nn]ein|[Nn]o/
+        false
       end
     end
   end

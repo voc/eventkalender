@@ -1,5 +1,14 @@
+# Build docker images on every pull request and build
+# new release image after version tag push.
+
 name: build docker image
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   build:
@@ -37,11 +46,3 @@ jobs:
       - name: Push docker image latest
         run: make latest build_version="$nextversion"
         if: success() && github.ref == 'refs/heads/master'
-      
-      - name: Git tag for relase
-        run: |
-          git tag v$nextversion $GITHUB_SHA -m "v$nextversion" && \
-          git push --tags
-        if: success() && github.ref == 'refs/heads/master'
-
-

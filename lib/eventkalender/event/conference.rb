@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Eventkalender
   # Represents a voc event.
   #
@@ -22,10 +24,9 @@ class Eventkalender
   # @!attribute [rw] planing_status
   #   @return [String] event planing status
   class Conference < Event
-
     attr_reader   :start_date, :end_date, :streaming, :buildup, :teardown
     attr_accessor :wiki_path, :planing_status, :name, :location, :description,
-                  :short_name, :cases
+                  :short_name
 
     # Create new event object
     #
@@ -84,15 +85,14 @@ class Eventkalender
     #
     # @return [Icalendar::Event] converted ical event
     def to_ical
-      Icalendar::Event.new.tap { |e|
+      Icalendar::Event.new.tap do |e|
         e.summary     = @name
         e.location    = @location
         e.dtstart     = Icalendar::Values::Date.new(@start_date.to_date)
         e.dtend       = Icalendar::Values::Date.new(@end_date.to_date + 1)
         e.description = @description
-      }
+      end
     end
-
 
     # Setter for streaming.
     #
@@ -110,11 +110,18 @@ class Eventkalender
     # @param cases_string [string] from doku wiki
     # @return [Array] room cases
     def cases=(cases_string)
-      if cases_string.nil?
-        @cases = []
-      else
-        @cases = cases_string.delete(' ').split(',')
-      end
+      @cases = if cases_string.nil?
+                 []
+               else
+                 cases_string.delete(' ').split(',')
+               end
+    end
+
+    # Getter for cases
+    #
+    # @return [Array] room cases
+    def cases
+      @cases
     end
   end
 end

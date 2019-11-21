@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Eventkalender
   # Represents a voc event.
   #
@@ -22,9 +24,8 @@ class Eventkalender
   # @!attribute [rw] planing_status
   #   @return [String] event planing status
   class Meeting < Event
-
     attr_reader   :start_date, :end_date
-    attr_accessor :tags, :type, :link, :location, :description, :name
+    attr_accessor :type, :link, :location, :name
 
     # Create new event object
     #
@@ -52,17 +53,17 @@ class Eventkalender
     #
     # @return [Icalendar::Event] converted ical event
     def to_ical
-      Icalendar::Event.new.tap { |e|
+      Icalendar::Event.new.tap do |e|
         e.summary     = @name
         e.location    = @location
         e.dtstart     = @start_date
         e.dtend       = @end_date
         e.description = @link
-      }
+      end
     end
 
     def description
-      "#{@link}"
+      @link.to_s
     end
 
     # Convert given string to an array with tags.
@@ -91,6 +92,13 @@ class Eventkalender
     # @return [Array] with tags
     def tags=(string)
       @tags = convert_tags(string)
+    end
+
+    # Getter for tags.
+    #
+    # @return [Array] with tags
+    def tags
+      @tags
     end
   end
 end

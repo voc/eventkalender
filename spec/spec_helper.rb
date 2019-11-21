@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # First include simplecov to track code coverage
 require 'simplecov'
 
@@ -11,15 +13,15 @@ require 'rack/test'
 require 'sinatra'
 require 'haml'
 
-%w{scraper fixnum}.each do |file|
+%w[scraper fixnum].each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', "#{file}.rb")
 end
 
-%w{event meeting conference}.each do |file|
+%w[event meeting conference].each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'event', "#{file}.rb")
 end
 
-%w{parser meetings conferences}.each do |file|
+%w[parser meetings conferences].each do |file|
   require File.join(File.dirname(__FILE__), '..', 'lib', 'eventkalender', 'parser', "#{file}.rb")
 end
 
@@ -35,14 +37,14 @@ RSpec.configure do |config|
 
   # Create fake webserver to send serve all request local
   config.before(:each) do
-    project_root             = File.expand_path('..', __FILE__)
+    project_root = File.expand_path(__dir__)
     fixtures = {
-      'https://c3voc.de/wiki/eventz'   => 'events.htm',
+      'https://c3voc.de/wiki/eventz' => 'events.htm',
       'https://c3voc.de/wiki/meetingz' => 'meetings.htm'
     }
 
     fixtures.each do |url, file|
-      stub_request(:get, url).to_return(:body => File.read("#{project_root}/fixtures/#{file}"), :status => 200, :headers => { 'Content-Type' => 'text/html; charset=utf-8'})
+      stub_request(:get, url).to_return(body: File.read("#{project_root}/fixtures/#{file}"), status: 200, headers: { 'Content-Type' => 'text/html; charset=utf-8' })
     end
   end
 end
