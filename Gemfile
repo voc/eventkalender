@@ -18,7 +18,7 @@ group :development do
   gem 'inch', '~> 0.8.0'
   gem 'mime-types', '~> 3.2.2' # 1.9.3 force
   gem 'nokogiri', '~> 1.10.5'
-  gem 'rack', '~> 2.0.0'
+  gem 'rack', '~> 2.0.8'
   gem 'rack-test', '~> 0.6.3'
   gem 'rspec', '~> 3.8.0'
   gem 'rubocop', '~> 0.76.0'
