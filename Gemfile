@@ -11,7 +11,7 @@ gem 'sinatra-contrib', '~> 2.0.7'
 # ical lib
 gem 'icalendar', '~> 2.5.3'
 # parsing
-gem 'mechanize', '~> 2.7.6'
+gem 'mechanize', '~> 2.7.7'
 
 group :development do
   gem 'addressable', '~> 2.6.0' # 1.9.3 force
