@@ -30,7 +30,7 @@ GEM
       term-ansicolor
       yard (~> 0.9.12)
     jaro_winkler (1.5.4)
-    json (2.2.0)
+    json (2.5.1)
     mechanize (2.7.7)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
