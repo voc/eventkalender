@@ -14,7 +14,7 @@ gem 'icalendar', '~> 2.5.3'
 gem 'mechanize', '~> 2.7.7'
 
 group :development do
-  gem 'addressable', '~> 2.6.0' # 1.9.3 force
+  gem 'addressable', '~> 2.8.0' # 1.9.3 force
   gem 'inch', '~> 0.8.0'
   gem 'mime-types', '~> 3.2.2' # 1.9.3 force
   gem 'nokogiri', '~> 1.11.0'
