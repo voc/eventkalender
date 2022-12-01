@@ -6,8 +6,8 @@ gem 'rake', '~> 13.0.0'
 # webframework
 gem 'haml', '~> 5.1.2'
 gem 'sass', '~> 3.7.4'
-gem 'sinatra', '~> 2.0.7'
-gem 'sinatra-contrib', '~> 2.0.7'
+gem 'sinatra', '~> 3.0.4'
+gem 'sinatra-contrib', '~> 3.0.4'
 # ical lib
 gem 'icalendar', '~> 2.5.3'
 # parsing
@@ -18,7 +18,7 @@ group :development do
   gem 'inch', '~> 0.8.0'
   gem 'mime-types', '~> 3.2.2' # 1.9.3 force
   gem 'nokogiri', '~> 1.13.4'
-  gem 'rack', '~> 2.1.4'
+  gem 'rack', '~> 2.2.4'
   gem 'rack-test', '~> 0.6.3'
   gem 'rspec', '~> 3.8.0'
   gem 'rubocop', '~> 0.76.0'
