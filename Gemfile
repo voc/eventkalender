@@ -17,7 +17,7 @@ group :development do
   gem 'addressable', '~> 2.8.0' # 1.9.3 force
   gem 'inch', '~> 0.8.0'
   gem 'mime-types', '~> 3.2.2' # 1.9.3 force
-  gem 'nokogiri', '~> 1.13.4'
+  gem 'nokogiri', '~> 1.14.3'
   gem 'rack', '~> 2.1.4'
   gem 'rack-test', '~> 0.6.3'
   gem 'rspec', '~> 3.8.0'
