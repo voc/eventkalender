@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'date'
+
 class Eventkalender
   class Parser::Conferences < Eventkalender::Parser
     def initialize(event_table)
@@ -44,8 +46,8 @@ class Eventkalender
       # Return nil if dates are not set
       return nil if raw_event[3].text.empty? || raw_event[2].text.empty?
 
-      start_date = self.class.date(raw_event[2].text) # Start date
-      end_date = self.class.date(raw_event[3].text) # End date
+      start_date = DateTime.parse(raw_event[2].text) # Start date
+      end_date = DateTime.parse(raw_event[3].text) # End date
       buildup = self.class.date(raw_event[9].text)
       teardown = self.class.date(raw_event[10].text)
       return nil if start_date.nil? || end_date.nil?
