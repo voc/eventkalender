@@ -1,7 +1,7 @@
 # eventkalender
 
 Small [sinatra](http://www.sinatrarb.com/) web application to serve [feeds](https://c3voc.de/eventkalender) for [c3voc](http://c3voc.de) [events](https://c3voc.de/wiki/events).<br>
-Eventkalender is tested against Ruby `3.3.x`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender) [![Inline docs](http://inch-ci.org/github/voc/eventkalender.png?branch=master)](http://inch-ci.org/github/voc/eventkalender)
+Eventkalender is tested against Ruby `3.3`. [![Build Status](https://travis-ci.org/voc/eventkalender.svg?branch=master)](https://travis-ci.org/voc/eventkalender) [![Inline docs](http://inch-ci.org/github/voc/eventkalender.png?branch=master)](http://inch-ci.org/github/voc/eventkalender)
 
 ## Usage
 
@@ -84,6 +84,12 @@ Docker [image builds](https://github.com/voc/eventkalender/packages/61060) are c
 Local builds can be created with:
 ```
 docker build -t eventkalender .
+```
+
+Run container with port binding to TCP 8000:
+
+```
+docker run -p 8000:8000 eventkalender
 ```
 
 ## Deployment
