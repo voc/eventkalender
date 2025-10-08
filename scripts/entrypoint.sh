@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# entrypoint
+PATH="$PATH:$(gem environment user_gemhome)/bin"
 
 set -e
 
