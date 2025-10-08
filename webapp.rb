@@ -12,6 +12,10 @@ set :public_folder, File.dirname(__FILE__) + '/views/public'
 
 set :sub_path, ''
 
+configure :development do
+  set :host_authorization, { permitted_hosts: [] }
+end
+
 # HTML pages
 namespace settings.sub_path.to_s do
   get '/' do
