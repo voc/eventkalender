@@ -45,14 +45,14 @@ namespace settings.sub_path.to_s do
                   Date.today
                 end
 
-    haml :index
+    haml :index, escape_html: false
   end
 
   get '/events.html' do
     @events = filter(filter_params,
                      settings.parser.events[meetings_or_conferences].events)
 
-    haml :events
+    haml :events, escape_html: false
   end
 
   # Formats

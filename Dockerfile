@@ -1,4 +1,4 @@
-FROM ruby:2.6.5-alpine3.10
+FROM ruby:3.3.9-alpine3.22
 
 RUN apk -U add gcc make libc-dev linux-headers g++ \
  && addgroup -S puma \
