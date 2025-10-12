@@ -56,8 +56,8 @@ class Eventkalender
       Icalendar::Event.new.tap do |e|
         e.summary     = @name
         e.location    = @location
-        e.dtstart     = @start_date
-        e.dtend       = @end_date
+        e.dtstart     = Icalendar::Values::DateTime.new(@start_date, tzid: 'Europe/Berlin')
+        e.dtend       = Icalendar::Values::DateTime.new(@end_date, tzid: 'Europe/Berlin')
         e.description = @link
       end
     end
