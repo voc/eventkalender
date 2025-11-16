@@ -12,6 +12,10 @@ set :public_folder, File.dirname(__FILE__) + '/views/public'
 
 set :sub_path, ''
 
+configure :development do
+  set :host_authorization, { permitted_hosts: [] }
+end
+
 # HTML pages
 namespace settings.sub_path.to_s do
   get '/' do
@@ -45,14 +49,14 @@ namespace settings.sub_path.to_s do
                   Date.today
                 end
 
-    haml :index
+    haml :index, escape_html: false
   end
 
   get '/events.html' do
     @events = filter(filter_params,
                      settings.parser.events[meetings_or_conferences].events)
 
-    haml :events
+    haml :events, escape_html: false
   end
 
   # Formats
